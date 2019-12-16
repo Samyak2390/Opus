@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-
+import apiService from '@/apiConfig/eventService'
 export default {
   name: 'LoginForm',
   data() {
@@ -54,7 +54,14 @@ export default {
     },
 
     submit() {
-      console.log('username: ', this.username, ' password: ', this.password)
+      // console.log('username: ', this.username, ' password: ', this.password)
+      const { username, password } = this
+      apiService.userLogin({ username, password })
+        .then(response => {
+          console.log('res>>>>', response)
+        }).catch(error => {
+          console.log(error.response.data)
+        })
     }
   }
 

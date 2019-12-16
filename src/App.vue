@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import apiService from '@/apiConfig/eventService'
 
 export default {
   name: 'App',
@@ -116,6 +117,12 @@ export default {
   }),
 
   created() {
+    apiService.checkIfLogged()
+      .then(response => {
+        console.log('login res>>>>', response)
+      })
+      .catch(error => console.log(error))
+
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
 
