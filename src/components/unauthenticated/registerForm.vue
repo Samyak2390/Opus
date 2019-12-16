@@ -9,7 +9,7 @@
       <v-text-field v-model="email" label="Email" :rules="[v => !!v || 'Email is required']"></v-text-field>
 
       <v-text-field
-        :type="!showPassword ? 'password' : 'text'"
+        :type="!showPassword ? 'new-password' : 'text'"
         v-model="password"
         label="Password"
         :rules="[v => !!v || 'Password is required']"
@@ -25,7 +25,7 @@
       </v-text-field>
 
       <v-text-field
-        :type="!showPassword ? 'password' : 'text'"
+        :type="!showPassword ? 'current-password' : 'text'"
         v-model="confirmPassword"
         label="Confirm Password"
         :rules="addRules"
