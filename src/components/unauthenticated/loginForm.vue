@@ -32,6 +32,7 @@
 </template>
 <script>
 import apiService from '@/apiConfig/eventService'
+import router from '@/router'
 export default {
   name: 'LoginForm',
   data() {
@@ -54,12 +55,14 @@ export default {
     },
 
     submit() {
-      // console.log('username: ', this.username, ' password: ', this.password)
       const { username, password } = this
       apiService.userLogin({ username, password })
         .then(response => {
-          console.log('res>>>>', response)
+          const token = response.username
+          localStorage.setItem('user-token', token)
+          router.push({ path: '/' })
         }).catch(error => {
+          localStorage.removeItem('user-token')
           console.log(error.response.data)
         })
     }

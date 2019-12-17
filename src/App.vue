@@ -49,23 +49,49 @@
         </v-navigation-drawer>
       </div>
       <div v-else>
-        <div class="nav-head">
-          <div class="logo hide">Opus</div>
+        <div
+          class="nav-head"
+          :class="page == '/login' || page =='/register' ? 'f-center' :'f-space-between'"
+        >
+          <div :class="page == '/login' || page =='/register' ? 'logo hide' :'logo'">Opus</div>
           <nav :class="page=='/login'?'black-background':''">
-            <ul :class="page=='/register' ? 'ul-color-change' : ''">
+            <ul :class="page!=='/login' ? 'ul-color-change' : ''">
               <li>
-                <a href="/">Home</a>
+                <a href="/" :class="{'page-selected':page=='/'}">Home</a>
               </li>
               <li>
-                <a href="/about">About</a>
+                <!-- <a href="#">Categories</a> -->
+                <v-menu open-on-hover>
+                  <template v-slot:activator="{ on }">
+                    <span v-on="on">
+                      Categories
+                      <v-icon :color="page==='/login' ?'white':''">mdi-chevron-down</v-icon>
+                    </span>
+                  </template>
+
+                  <v-list>
+                    <v-list-item>
+                      <v-list-item-title>Fiction</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>Comics</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>History</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </li>
               <li>
-                <a href="/"></a>Categories
+                <a href="#"></a>Wishlist
               </li>
               <li>
                 <v-menu open-on-hover>
                   <template v-slot:activator="{ on }">
-                    <span v-on="on">Account</span>
+                    <span v-on="on">
+                      Account
+                      <v-icon :color="page==='/login' ?'white':''">mdi-chevron-down</v-icon>
+                    </span>
                   </template>
 
                   <v-list>
@@ -88,7 +114,7 @@
 </template>
 
 <script>
-import apiService from '@/apiConfig/eventService'
+// import apiService from '@/apiConfig/eventService'
 
 export default {
   name: 'App',
@@ -117,11 +143,11 @@ export default {
   }),
 
   created() {
-    apiService.checkIfLogged()
-      .then(response => {
-        console.log('login res>>>>', response)
-      })
-      .catch(error => console.log(error))
+    // apiService.checkIfLogged()
+    //   .then(response => {
+    //     console.log('login res>>>>', response)
+    //   })
+    //   .catch(error => console.log(error))
 
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -147,15 +173,32 @@ export default {
 }
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Aclonica&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Advent+Pro&display=swap");
+
+.logo {
+  margin-left: 1em;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: "Aclonica", sans-serif;
+}
+
 .hide {
   /* color: rgba(0, 0, 0, 0); */
   display: none;
 }
 
+.f-space-between {
+  justify-content: space-between;
+}
+
+.f-center {
+  justify-content: center;
+}
+
 .nav-head {
   display: flex;
-  justify-content: center;
-  height: 3em;
+  height: 4em;
   align-items: center;
   background: transparent;
   position: fixed;
@@ -179,6 +222,8 @@ ul {
   color: white;
   font-weight: bold;
   text-transform: uppercase;
+  font-family: "Advent Pro", sans-serif;
+  letter-spacing: 2px;
 }
 
 .ul-color-change,
@@ -191,5 +236,13 @@ nav a {
   color: white;
   font-weight: bold;
   text-transform: uppercase;
+  font-family: "Advent Pro", sans-serif;
+}
+
+.page-selected {
+  text-decoration: underline;
+  cursor: not-allowed;
+  color: red;
+  pointer-events: none;
 }
 </style>

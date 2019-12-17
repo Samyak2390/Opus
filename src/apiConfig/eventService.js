@@ -22,9 +22,13 @@ export default {
       })
   },
   checkIfLogged() {
-    return apiClient.get('WAT/wat2019/api-opus/api/sessionStatus.php')
+    return apiClient.get('WAT/wat2019/api-opus/api/users/sessionStatus.php')
       .then(response => {
         return response.data
       })
+  },
+  userRegister(payload) {
+    console.log('regPayload>>>', payload)
+    return apiClient.post('WAT/wat2019/api-opus/api/users/register.php', payload, { headers: { 'Content-Type': 'application/json' } })
   }
 }

@@ -66,6 +66,7 @@
   </div>
 </template>
 <script>
+import apiService from '@/apiConfig/eventService'
 
 export default {
   name: 'registerForm',
@@ -111,7 +112,13 @@ export default {
     },
 
     submit() {
-      console.log('username: ', this.username, ' password: ', this.password)
+      const { username, password, email, age } = this
+      apiService.userRegister({ username, password, email, age })
+        .then(response => {
+          console.log('res>>>>', response)
+        }).catch(error => {
+          console.log(error.response.data)
+        })
     }
   }
 
