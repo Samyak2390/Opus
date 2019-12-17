@@ -5,7 +5,7 @@
         <v-app-bar
           absolute
           temporary
-          :color="color"
+          :color="page=='/login' || page=='/register' ? color2 : color1"
           :elevate-on-scroll="elevateOnScroll"
           :hide-on-scroll="hideOnScroll"
           :fade-on-scroll="fadeOnScroll"
@@ -18,13 +18,33 @@
           :flat="true"
         >
           <v-app-bar-nav-icon
-            :color="page=='/login' ? 'white': 'rgba(236, 112, 99, 1)'"
+            :color="page=='/register' ? 'rgba(236, 112, 99, 1)': 'white'"
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
 
           <!-- <v-toolbar-title></v-toolbar-title> -->
+          <div
+            :class="page == '/login' || page =='/register' ? 'hide' :'search-bar'"
+            style="width: 95%; margin: 0 auto"
+          >
+            <div class="item1">
+              <v-select
+                dark
+                color="white"
+                :items="['All', 'Comics', 'History', 'Biography']"
+                placeholder="Choose"
+              ></v-select>
+            </div>
+            <div class="item2">
+              <v-text-field dark placeholder="Search">
+                <template slot="append">
+                  <v-icon>mdi-magnify</v-icon>
+                </template>
+              </v-text-field>
+            </div>
+          </div>
 
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer> -->
         </v-app-bar>
         <v-navigation-drawer v-model="drawer" absolute temporary>
           <v-list nav dense>
@@ -125,7 +145,8 @@
           </nav>
         </div>
       </div>
-      <router-view />
+
+      <router-view :class="page == '/login' || page =='/register' ? '' :'align'" />
     </v-app>
   </div>
 </template>
@@ -156,7 +177,8 @@ export default {
     collapseOnScroll: false,
     shrinkOnScroll: false,
     extended: false,
-    color: 'transparent'
+    color1: 'rgba(236, 112, 99, 1)',
+    color2: 'transparent'
   }),
 
   created() {
@@ -170,6 +192,7 @@ export default {
     this.handleResize()
 
     this.page = window.location.pathname
+    console.log('page>>>', this.page)
   },
 
   destroyed() {
@@ -192,6 +215,13 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Aclonica&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Advent+Pro&display=swap");
+
+.align {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  right: 0;
+}
 
 .search-bar {
   display: flex;
@@ -227,7 +257,7 @@ export default {
 
 .nav-head {
   display: flex;
-  height: 4em;
+  height: 8vh;
   align-items: center;
   /* background: transparent; */
   background-color: rgba(236, 112, 99, 1);
