@@ -18,11 +18,11 @@
           :flat="true"
         >
           <v-app-bar-nav-icon
-            :color="page=='/register' ? 'black': 'white'"
+            :color="page=='/login' ? 'white': 'rgba(236, 112, 99, 1)'"
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
 
-          <!-- <v-toolbar-title>Title</v-toolbar-title> -->
+          <!-- <v-toolbar-title></v-toolbar-title> -->
 
           <v-spacer></v-spacer>
         </v-app-bar>
@@ -51,11 +51,28 @@
       <div v-else>
         <div
           class="nav-head"
-          :class="page == '/login' || page =='/register' ? 'f-center' :'f-space-between'"
+          :class="page == '/login' || page =='/register' ? 'f-center no-background' :'f-space-between'"
         >
           <div :class="page == '/login' || page =='/register' ? 'logo hide' :'logo'">Opus</div>
+          <div :class="page == '/login' || page =='/register' ? 'hide' :'search-bar'">
+            <div class="item1">
+              <v-select
+                dark
+                color="white"
+                :items="['All', 'Comics', 'History', 'Biography']"
+                placeholder="Choose"
+              ></v-select>
+            </div>
+            <div class="item2">
+              <v-text-field dark placeholder="Search">
+                <template slot="append">
+                  <v-icon>mdi-magnify</v-icon>
+                </template>
+              </v-text-field>
+            </div>
+          </div>
           <nav :class="page=='/login'?'black-background':''">
-            <ul :class="page!=='/login' ? 'ul-color-change' : ''">
+            <ul :class="page =='/register' ? 'ul-color-change' : ''">
               <li>
                 <a href="/" :class="{'page-selected':page=='/'}">Home</a>
               </li>
@@ -65,7 +82,7 @@
                   <template v-slot:activator="{ on }">
                     <span v-on="on">
                       Categories
-                      <v-icon :color="page==='/login' ?'white':''">mdi-chevron-down</v-icon>
+                      <v-icon :color="page==='/register' ?'black':'white'">mdi-chevron-down</v-icon>
                     </span>
                   </template>
 
@@ -89,16 +106,16 @@
                 <v-menu open-on-hover>
                   <template v-slot:activator="{ on }">
                     <span v-on="on">
-                      Account
-                      <v-icon :color="page==='/login' ?'white':''">mdi-chevron-down</v-icon>
+                      <span :class="{'page-selected':page=='/login' || page=='/register'}">Account</span>
+                      <v-icon :color="page==='/register' ?'black':'white'">mdi-chevron-down</v-icon>
                     </span>
                   </template>
 
                   <v-list>
-                    <v-list-item href="/login">
+                    <v-list-item href="/login" :class="{'page-selected':page=='/login'}">
                       <v-list-item-title>Login</v-list-item-title>
                     </v-list-item>
-                    <v-list-item href="/register">
+                    <v-list-item href="/register" :class="{'page-selected':page=='/register'}">
                       <v-list-item-title>Register</v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -176,11 +193,23 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Aclonica&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Advent+Pro&display=swap");
 
+.search-bar {
+  display: flex;
+}
+
+.item1 {
+  width: 30%;
+}
+.item2 {
+  width: 70%;
+}
+
 .logo {
   margin-left: 1em;
   font-size: 2em;
   font-weight: bold;
   font-family: "Aclonica", sans-serif;
+  color: white;
 }
 
 .hide {
@@ -200,11 +229,16 @@ export default {
   display: flex;
   height: 4em;
   align-items: center;
-  background: transparent;
+  /* background: transparent; */
+  background-color: rgba(236, 112, 99, 1);
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
+}
+
+.no-background {
+  background-color: rgba(255, 255, 255, 0);
 }
 
 nav {
@@ -242,7 +276,6 @@ nav a {
 .page-selected {
   text-decoration: underline;
   cursor: not-allowed;
-  color: red;
   pointer-events: none;
 }
 </style>
