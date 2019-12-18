@@ -120,7 +120,7 @@
                 </v-menu>
               </li>
               <li>
-                <a href="#"></a>Wishlist
+                <a href="/favorites"></a>Wishlist
               </li>
               <li>
                 <v-menu open-on-hover>
@@ -158,6 +158,7 @@ export default {
   name: 'App',
 
   components: {
+
   },
 
   data: () => ({

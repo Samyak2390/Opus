@@ -1,32 +1,20 @@
 <template>
-  <div>
+  <div class="main-container-home">
     <div class="carousel">Carousel here</div>
-    <!-- <div style="max-width: 85%; margin: 0 auto">
-      <div class="slider-group-title">
-        <p>Top Rated</p>
-      </div>
-      <v-slide-group
-        :multiple="false"
-        :mandatory="false"
-        :show-arrows="false"
-        :center-active="false"
-      >
-        <v-slide-item v-for="n in 15" :key="n" v-slot:default="{ active, toggle }">
-          <Item class="ma-4" />
-        </v-slide-item>
-      </v-slide-group>
-    </div>-->
     <ISlider />
     <ISlider />
     <ISlider />
+    <Footer />
   </div>
 </template>
 
 <script>
 import ISlider from '../components/commons/items-slider.vue'
+import Footer from '../components/commons/footer'
+
 export default {
   components: {
-    ISlider
+    ISlider, Footer
   }
 
 }
@@ -36,5 +24,9 @@ export default {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   height: 400px;
+}
+
+.main-container-home {
+  padding-bottom: 10rem;
 }
 </style>
