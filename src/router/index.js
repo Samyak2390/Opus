@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Favorites from '../views/Favorites.vue'
+import Favourites from '../views/Favourites.vue'
 
 Vue.use(VueRouter)
 
@@ -24,9 +24,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/favorites',
-    name: 'favorites',
-    component: Favorites
+    path: '/favourites',
+    name: 'favourites',
+    component: Favourites
   },
 
   {

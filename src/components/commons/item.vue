@@ -4,7 +4,7 @@
       large
       color="red"
       style="position: absolute; right:0;margin: 5px 5px 0 0"
-    >{{true?'mdi-heart-circle':'mdi-heart-broken'}}</v-icon>
+    >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>
     <div style="padding-top: 5px;">
       <img
         src="@/assets/test/a.jpg"
@@ -29,7 +29,12 @@
 </template>
 <script>
 export default {
+  data: _ => ({
 
+  }),
+  props: {
+    isFav: Boolean
+  }
 }
 </script>
 
@@ -58,6 +63,7 @@ export default {
   min-width: 200px;
   max-height: 320px;
   min-height: 320px;
+  margin: 0 10px 20px 10px;
 }
 
 .card:hover {

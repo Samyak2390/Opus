@@ -120,7 +120,7 @@
                 </v-menu>
               </li>
               <li>
-                <a href="/favorites"></a>Wishlist
+                <a href="/favourites" :class="{'page-selected':page=='/favourites'}">Wishlist</a>
               </li>
               <li>
                 <v-menu open-on-hover>
