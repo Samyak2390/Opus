@@ -64,6 +64,9 @@
               <v-list-item href="/register" :disabled="page=='/register' ? true : false">
                 <v-list-item-title>Register</v-list-item-title>
               </v-list-item>
+              <v-list-item href="/admin" :disabled="page=='/admin' ? true : false">
+                <v-list-item-title>Admin Panel</v-list-item-title>
+              </v-list-item>
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
@@ -126,7 +129,9 @@
                 <v-menu open-on-hover>
                   <template v-slot:activator="{ on }">
                     <span v-on="on">
-                      <span :class="{'page-selected':page=='/login' || page=='/register'}">Account</span>
+                      <span
+                        :class="{'page-selected':page=='/login' || page=='/register' || page=='/admin/*'}"
+                      >Account</span>
                       <v-icon :color="page==='/register' ?'black':'white'">mdi-chevron-down</v-icon>
                     </span>
                   </template>
@@ -137,6 +142,9 @@
                     </v-list-item>
                     <v-list-item href="/register" :class="{'page-selected':page=='/register'}">
                       <v-list-item-title>Register</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item href="/admin" :class="{'page-selected':page=='/admin'}">
+                      <v-list-item-title>Admin Panel</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
