@@ -1,4 +1,5 @@
 <template>
+  <!-- Put a snack bar to show error, success which is handled from the store -->
   <div>
     <v-app>
       <div v-if="window.width<992">
@@ -122,7 +123,7 @@
                   </v-list>
                 </v-menu>
               </li>
-              <li>
+              <li v-if="currentUser">
                 <a href="/favourites" :class="{'page-selected':page=='/favourites'}">Wishlist</a>
               </li>
               <li>
@@ -137,13 +138,28 @@
                   </template>
 
                   <v-list>
-                    <v-list-item href="/login" :class="{'page-selected':page=='/login'}">
+                    <v-list-item
+                      v-if="!currentUser"
+                      href="/login"
+                      :class="{'page-selected':page=='/login'}"
+                    >
                       <v-list-item-title>Login</v-list-item-title>
                     </v-list-item>
-                    <v-list-item href="/register" :class="{'page-selected':page=='/register'}">
+                    <v-list-item v-else>
+                      <v-list-item-title @click="_=>logout()">Logout</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      v-if="!currentUser"
+                      href="/register"
+                      :class="{'page-selected':page=='/register'}"
+                    >
                       <v-list-item-title>Register</v-list-item-title>
                     </v-list-item>
-                    <v-list-item href="/admin" :class="{'page-selected':page=='/admin'}">
+                    <v-list-item
+                      v-if="currentUser"
+                      href="/admin"
+                      :class="{'page-selected':page=='/admin'}"
+                    >
                       <v-list-item-title>Admin Panel</v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -161,7 +177,7 @@
 
 <script>
 // import apiService from '@/apiConfig/eventService'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
 
@@ -170,7 +186,6 @@ export default {
   },
 
   data: () => ({
-    page: '',
     window: {
       width: 0
     },
@@ -190,18 +205,16 @@ export default {
     color2: 'transparent'
   }),
 
+  computed: {
+    ...mapGetters({ currentUser: 'currentUser', page: 'currentPage' })
+
+  },
+
   created() {
-    // apiService.checkIfLogged()
-    //   .then(response => {
-    //     console.log('login res>>>>', response)
-    //   })
-    //   .catch(error => console.log(error))
+    this.checkCurrentLogin()
 
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
-
-    this.page = window.location.pathname
-    console.log('page>>>', this.page)
   },
 
   destroyed() {
@@ -211,14 +224,29 @@ export default {
   methods: {
     handleResize() {
       this.window.width = window.innerWidth
+    },
+    checkCurrentLogin() {
+      if (!this.currentUser && this.$route.path === '/favourites') {
+        console.log('In favourites without login redirection needed')
+        this.$router.push('/')
+      }
+    },
+    logout() {
+      this.$store.dispatch('logout')
     }
+
   },
 
   watch: {
     group() {
       this.drawer = false
     }
+  },
+  // redirect from favourites page to login page when not logged in*********** fix: not sure need to look at this part
+  updated() {
+    this.checkCurrentLogin()
   }
+
 }
 </script>
 <style scoped>

@@ -13,11 +13,13 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    // must not be authorized
     path: '/login',
     name: 'login',
     component: Login
   },
   {
+    // must not be authorized
     path: '/register',
     name: 'register',
     component: Register
@@ -28,6 +30,7 @@ const routes = [
     component: Home
   },
   {
+    // must be authorized
     path: '/favourites',
     name: 'favourites',
     component: Favourites
