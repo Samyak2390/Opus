@@ -2,6 +2,7 @@
   <!-- Put a snack bar to show error, success which is handled from the store -->
   <div>
     <v-app>
+      <snackbar />
       <div v-if="window.width<992">
         <v-app-bar
           absolute
@@ -156,7 +157,7 @@
                       <v-list-item-title>Register</v-list-item-title>
                     </v-list-item>
                     <v-list-item
-                      v-if="currentUser"
+                      v-if="isAdmin()"
                       href="/admin"
                       :class="{'page-selected':page=='/admin'}"
                     >
@@ -177,12 +178,13 @@
 
 <script>
 // import apiService from '@/apiConfig/eventService'
+import snackbar from '@/components/commons/snackbar'
 import { mapGetters } from 'vuex'
 export default {
   name: 'App',
 
   components: {
-
+    snackbar
   },
 
   data: () => ({
@@ -227,12 +229,17 @@ export default {
     },
     checkCurrentLogin() {
       if (!this.currentUser && this.$route.path === '/favourites') {
-        console.log('In favourites without login redirection needed')
         this.$router.push('/')
       }
     },
     logout() {
       this.$store.dispatch('logout')
+    },
+    isAdmin() {
+      if (this.currentUser.role === '1') {
+        return true
+      }
+      return false
     }
 
   },

@@ -2,7 +2,7 @@
 import * as MutationTypes from '@/store/mutation-types'
 
 const state = {
-  user: localStorage.user
+  user: localStorage.user ? JSON.parse(localStorage.user) : ''
 }
 
 const getters = {

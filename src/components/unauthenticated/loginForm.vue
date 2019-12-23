@@ -60,13 +60,8 @@ export default {
       const { username, password } = this
       apiService.userLogin({ username, password })
         .then(response => {
-          // const token = response.token
-          // localStorage.setItem('token', token)
-          // router.push({ path: '/' })
           this.loginSuccessful(response)
         }).catch(error => {
-          // localStorage.removeItem('user-token')
-          // console.log(error.response.data)
           this.loginFailed(error)
         })
     },
@@ -82,12 +77,14 @@ export default {
       this.$store.dispatch('login')
       this.$router.push({ path: '/' })
       this.$store.dispatch('changePage', '/')
+      this.$store.dispatch('showSnackbar', true, 'success', 'You are logged in Successfully.')
     },
 
-    loginFailed() {
+    loginFailed(error) {
       this.error = 'Login failed!'
       this.$store.dispatch('logout')
       delete localStorage.token
+      this.$store.dispatch('showSnackbar', true, 'error', error.response.data || 'Login failed!')
     },
 
     // if logged in, redirect to home page **************** fix: have to put it in register form as well
