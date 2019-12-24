@@ -12,31 +12,36 @@
       :vertical="mode === 'vertical'"
     >
       {{ text }}
-      <v-btn dark text @click="snackbar = false">Close</v-btn>
+      <v-btn dark text @click="_=>revert()">Close</v-btn>
     </v-snackbar>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      color: '', // dynamic
+      color: '',
       mode: '',
-      snackbar: false, // dynamic
-      text: '', // dynamic
-      timeout: 0,
+      snackbar: false,
+      text: '',
+      timeout: 3500,
       x: null,
       y: 'top'
     }
   },
-  computed: {
-    ...mapGetters({ snackbarSettings: 'snackbarSettings' })
+  created() {
+    this.$store.watch(_ => this.$store.getters['snackbarSettings'], value => {
+      this.color = value.color
+      this.text = value.text
+      this.snackbar = value.show
+    })
   },
-  mounted() {
-    this.color = this.snackbarSettings.color
-    this.snackbar = this.snackbarSettings.show
-    this.text = this.snackbarSettings.text
+  methods: {
+    revert() {
+      this.snackbar = false
+      this.text = ''
+      this.color = ''
+    }
   }
 
 }

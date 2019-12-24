@@ -62,7 +62,7 @@ export default {
         .then(response => {
           this.loginSuccessful(response)
         }).catch(error => {
-          this.loginFailed(error)
+          this.loginFailed(error.response.data.message)
         })
     },
 
@@ -77,14 +77,13 @@ export default {
       this.$store.dispatch('login')
       this.$router.push({ path: '/' })
       this.$store.dispatch('changePage', '/')
-      this.$store.dispatch('showSnackbar', true, 'success', 'You are logged in Successfully.')
+      this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'You are logged in Successfully.' })
     },
 
-    loginFailed(error) {
-      this.error = 'Login failed!'
+    loginFailed(errorMessage) {
       this.$store.dispatch('logout')
       delete localStorage.token
-      this.$store.dispatch('showSnackbar', true, 'error', error.response.data || 'Login failed!')
+      this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while logging in.' })
     },
 
     // if logged in, redirect to home page **************** fix: have to put it in register form as well

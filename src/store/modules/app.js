@@ -22,8 +22,8 @@ const actions = {
   changePage({ commit }, page) {
     commit(MutationTypes.CHANGEPAGE, page)
   },
-  showSnackbar({ commit }, show = true, color, text) {
-    commit(MutationTypes.SHOWSNACKBAR, show, color, text)
+  showSnackbar({ commit }, payload) {
+    commit(MutationTypes.SHOWSNACKBAR, payload)
   }
 }
 
@@ -31,8 +31,8 @@ const mutations = {
   [MutationTypes.CHANGEPAGE](state, page) {
     state.page = page
   },
-  [MutationTypes.SHOWSNACKBAR](state, show, color, text) {
-    state.snackbarSettings = { show, color, text }
+  [MutationTypes.SHOWSNACKBAR](state, payload) {
+    state.snackbarSettings = payload
   }
 }
 

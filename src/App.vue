@@ -236,12 +236,13 @@ export default {
       this.$store.dispatch('logout')
     },
     isAdmin() {
-      if (this.currentUser.role === '1') {
-        return true
+      if (this.currentUser) {
+        if (this.currentUser.role === '1') {
+          return true
+        }
+        return false
       }
-      return false
     }
-
   },
 
   watch: {

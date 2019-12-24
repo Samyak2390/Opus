@@ -23,7 +23,7 @@ const actions = {
 
 const mutations = {
   [MutationTypes.LOGIN](state) {
-    state.user = localStorage.user
+    state.user = JSON.parse(localStorage.user)
   },
   [MutationTypes.LOGOUT](state) {
     state.user = null
