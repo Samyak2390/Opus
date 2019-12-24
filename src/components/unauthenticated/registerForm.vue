@@ -112,16 +112,29 @@ export default {
     },
 
     submit() {
+      this.$store.dispatch('loader', { show: true, message: 'Registering' })
       const { username, password, email, age } = this
       apiService.userRegister({ username, password, email, age })
         .then(response => {
-          console.log('res>>>>', response)
+          // console.log('res>>>>', response)
+          this.$store.dispatch('loader', { show: false, message: '' })
+          this.$router.push({ path: '/login' })
+          this.$store.dispatch('changePage', '/login')
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'You are Successfully Registered.' })
         }).catch(error => {
-          console.log(error.response.data)
+          this.$store.dispatch('loader', { show: false, message: '' })
+          if (error.response !== 'undefined') {
+            let errorMessage = ''
+            const errors = error.response.data.message
+            errors.forEach(error => {
+              errorMessage += error + '\n'
+            })
+            console.log('emsg>>>>>', errorMessage)
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while registering.' })
+          }
         })
     }
   }
-
 }
 </script>
 

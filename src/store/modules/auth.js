@@ -1,5 +1,6 @@
 // import axios from 'axios';
 import * as MutationTypes from '@/store/mutation-types'
+import apiService from '@/apiConfig/eventService'
 
 const state = {
   user: localStorage.user ? JSON.parse(localStorage.user) : ''
@@ -17,6 +18,13 @@ const actions = {
     commit(MutationTypes.LOGIN)
   },
   logout({ commit }) {
+    apiService.userLogout()
+      .then(response => {
+        console.log('logout res>>>>>', response)
+      })
+      .catch(error => {
+        console.log('logout err>>>>', error.response.data)
+      })
     commit(MutationTypes.LOGOUT)
   }
 }

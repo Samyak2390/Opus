@@ -21,10 +21,10 @@ export default {
   data() {
     return {
       color: '',
-      mode: '',
+      mode: 'vertical',
       snackbar: false,
       text: '',
-      timeout: 3500,
+      timeout: 5000,
       x: null,
       y: 'top'
     }

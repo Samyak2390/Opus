@@ -2,7 +2,7 @@
   <div class="admin-dash">
     <div class="hide-admin-nav">
       <v-card height="92vh" width="256">
-        <v-navigation-drawer>
+        <v-navigation-drawer style="position: fixed; top: 8vh;">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="title">Admin Panel</v-list-item-title>
@@ -58,5 +58,6 @@ export default {
 
 .admin-dash {
   display: flex;
+  overflow: hidden;
 }
 </style>

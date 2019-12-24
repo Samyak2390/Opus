@@ -7,7 +7,7 @@ const apiClient = axios.create({
   baseURL: devEnv,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.token
+    'Authorization': localStorage.token
   }
 })
 
@@ -25,6 +25,14 @@ export default {
         return response.data
       })
   },
+
+  userLogout() {
+    return apiClient.post('/users/logout.php')
+      .then(response => {
+        return response.data
+      })
+  },
+
   checkIfLogged() {
     return apiClient.get('/users/sessionStatus.php')
       .then(response => {
@@ -33,6 +41,9 @@ export default {
   },
   userRegister(payload) {
     console.log('regPayload>>>', payload)
-    return apiClient.post('/users/register.php', payload, { headers: { 'Content-Type': 'application/json' } })
+    return apiClient.post('/users/register.php', payload)
+      .then(response => {
+        return response.data
+      })
   }
 }
