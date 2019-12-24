@@ -57,6 +57,7 @@ export default {
     },
 
     submit() {
+      this.$store.dispatch('loader', { show: true, message: 'Signing in' })
       const { username, password } = this
       apiService.userLogin({ username, password })
         .then(response => {
@@ -67,6 +68,7 @@ export default {
     },
 
     loginSuccessful(req) {
+      this.$store.dispatch('loader', { show: false, message: '' })
       if (!req.token) {
         this.loginFailed()
         return
@@ -81,6 +83,7 @@ export default {
     },
 
     loginFailed(errorMessage) {
+      this.$store.dispatch('loader', { show: false, message: '' })
       this.$store.dispatch('logout')
       delete localStorage.token
       this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while logging in.' })

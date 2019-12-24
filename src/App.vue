@@ -2,6 +2,7 @@
   <!-- Put a snack bar to show error, success which is handled from the store -->
   <div>
     <v-app>
+      <loader />
       <snackbar />
       <div v-if="window.width<992">
         <v-app-bar
@@ -179,12 +180,14 @@
 <script>
 // import apiService from '@/apiConfig/eventService'
 import snackbar from '@/components/commons/snackbar'
+import loader from '@/components/commons/loader'
+
 import { mapGetters } from 'vuex'
 export default {
   name: 'App',
 
   components: {
-    snackbar
+    snackbar, loader
   },
 
   data: () => ({

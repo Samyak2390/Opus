@@ -6,6 +6,10 @@ const state = {
     show: false,
     color: '',
     text: ''
+  },
+  loader: {
+    show: false,
+    message: ''
   }
 }
 
@@ -15,6 +19,9 @@ const getters = {
   },
   snackbarSettings(state) {
     return state.snackbarSettings
+  },
+  loaderSettings(state) {
+    return state.loader
   }
 }
 
@@ -24,6 +31,9 @@ const actions = {
   },
   showSnackbar({ commit }, payload) {
     commit(MutationTypes.SHOWSNACKBAR, payload)
+  },
+  loader({ commit }, payload) {
+    commit(MutationTypes.LOADER, payload)
   }
 }
 
@@ -33,6 +43,9 @@ const mutations = {
   },
   [MutationTypes.SHOWSNACKBAR](state, payload) {
     state.snackbarSettings = payload
+  },
+  [MutationTypes.LOADER](state, payload) {
+    state.loader = payload
   }
 }
 
