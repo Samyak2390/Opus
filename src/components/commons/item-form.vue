@@ -14,14 +14,25 @@
         label="Publisher"
         :rules="[v => !!v || 'Publisher is required']"
       ></v-text-field>
+      <v-text-field v-model="price" label="Price" :rules="[v => !!v || 'Price is required']"></v-text-field>
+      <v-text-field v-model="pages" label="Rating" :rules="[v => !!v || 'Rating is required']"></v-text-field>
+      <v-select
+        v-model="category"
+        :items="['one', 'two', 'three', 'four']"
+        label="Category"
+        :rules="[v => !!v || 'Category is required']"
+      ></v-select>
       <v-select
         v-model="image"
         :items="['img1', 'img2', 'img3', 'img4']"
         label="Choose From existing images."
         :rules="[v => !!v || 'Image is required']"
       ></v-select>
-      <v-file-input v-model="image" show-size accept="image/*" label="Choose a new Image"></v-file-input>
-      <v-textarea v-model="description" name="input-7-1" label="Description" value></v-textarea>
+      <div id="preview">
+        <img v-if="url" :src="url" />
+      </div>
+      <v-file-input @change="onFileChange" show-size label="Choose a new Image"></v-file-input>
+      <v-textarea v-model="description" name="input-7-1" label="Description"></v-textarea>
     </v-form>
     <div class="custom-button-wrapper">
       <v-btn
@@ -38,13 +49,46 @@
 export default {
   data() {
     return {
-      valid: true
+      url: '',
+      valid: true,
+      bookname: '',
+      author: '',
+      year: '',
+      pages: '',
+      publisher: '',
+      price: '',
+      rating: '',
+      category: '',
+      image: '',
+      imageFile: '',
+      description: ''
+    }
+  },
+  methods: {
+    onFileChange(file) {
+      if (file) {
+        this.imageFile = file
+        this.url = URL.createObjectURL(file)
+      } else {
+        this.url = ''
+      }
     }
   }
 
 }
 </script>
 <style scoped>
+#preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
+}
+
 @media screen and (min-width: 992px) {
   .item-form {
     width: 40%;
@@ -68,5 +112,9 @@ export default {
   width: 140px;
   border-radius: 15px;
   margin: 0 auto;
+}
+
+.item-form-wrapper {
+  padding: 20px 0;
 }
 </style>

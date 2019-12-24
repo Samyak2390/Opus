@@ -14,4 +14,7 @@ export default {
 }
 </script>
 <style scoped>
+div > p {
+  margin-top: 20px;
+}
 </style>
