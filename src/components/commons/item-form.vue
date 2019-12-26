@@ -16,6 +16,11 @@
       ></v-text-field>
       <v-text-field v-model="price" label="Price" :rules="[v => !!v || 'Price is required']"></v-text-field>
       <v-text-field v-model="rating" label="Rating" :rules="[v => !!v || 'Rating is required']"></v-text-field>
+      <v-text-field
+        v-model="bestseller"
+        label="Is Best Seller?"
+        :rules="[v => !!v || 'Best Seller is required', v=> (v == 'true' || v == 'false') || 'Only true or false' ]"
+      ></v-text-field>
       <v-select
         v-model="category"
         :items="['one', 'two', 'three', 'four']"
@@ -75,6 +80,7 @@ export default {
       }
     },
     submit() {
+      this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
       const { bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description } = this
       let allData = { bookname, author, year, pages, publisher, price, rating, category, image, description }
       allData = JSON.stringify(allData)
@@ -83,11 +89,24 @@ export default {
       fd.append('data', allData)
       apiService.addItem(fd)
         .then(response => {
-          console.log(response.data)
+          this.$store.dispatch('loader', { show: false, message: '' })
+          // this.$router.push({ path: '/login' })
+          // this.$store.dispatch('changePage', '/login')
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
         })
         .catch(error => {
+          this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
-            console.log(error.reponse.data)
+            let errorMessage = ''
+            const errors = error.response.data.message
+            if (Array.isArray(errors)) {
+              errors.forEach(error => {
+                errorMessage += error + '\n'
+              })
+            } else {
+              errorMessage = errors
+            }
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while adding Item.' })
           }
         })
     }

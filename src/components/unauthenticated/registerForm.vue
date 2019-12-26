@@ -116,7 +116,6 @@ export default {
       const { username, password, email, age } = this
       apiService.userRegister({ username, password, email, age })
         .then(response => {
-          // console.log('res>>>>', response)
           this.$store.dispatch('loader', { show: false, message: '' })
           this.$router.push({ path: '/login' })
           this.$store.dispatch('changePage', '/login')
@@ -125,6 +124,7 @@ export default {
           this.$store.dispatch('loader', { show: false, message: '' })
           if (error.response !== 'undefined') {
             let errorMessage = ''
+            // check if errors always come as array
             const errors = error.response.data.message
             errors.forEach(error => {
               errorMessage += error + '\n'
