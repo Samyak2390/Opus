@@ -19,7 +19,7 @@
       <v-text-field
         v-model="bestseller"
         label="Is Best Seller?"
-        :rules="[v => !!v || 'Best Seller is required', v=> (v == 'true' || v == 'false') || 'Only true or false' ]"
+        :rules="[v => !!v || 'Best Seller is required', v=> (v == '1' || v == '0') || 'Only 1 (true) or 0 (false)' ]"
       ></v-text-field>
       <v-select
         v-model="category"
@@ -63,6 +63,7 @@ export default {
       publisher: '',
       price: '',
       rating: '',
+      bestseller: '',
       category: '',
       image: '',
       imageFile: '',
@@ -81,8 +82,8 @@ export default {
     },
     submit() {
       this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
-      const { bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description } = this
-      let allData = { bookname, author, year, pages, publisher, price, rating, category, image, description }
+      const { bookname, author, year, pages, publisher, price, rating, bestseller, category, image, imageFile, description } = this
+      let allData = { bookname, author, year, pages, publisher, price, rating, bestseller, category, image, description }
       allData = JSON.stringify(allData)
       const fd = new FormData()
       fd.append('imageFile', imageFile, imageFile.name)
