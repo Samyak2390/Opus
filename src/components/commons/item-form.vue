@@ -15,7 +15,7 @@
         :rules="[v => !!v || 'Publisher is required']"
       ></v-text-field>
       <v-text-field v-model="price" label="Price" :rules="[v => !!v || 'Price is required']"></v-text-field>
-      <v-text-field v-model="pages" label="Rating" :rules="[v => !!v || 'Rating is required']"></v-text-field>
+      <v-text-field v-model="rating" label="Rating" :rules="[v => !!v || 'Rating is required']"></v-text-field>
       <v-select
         v-model="category"
         :items="['one', 'two', 'three', 'four']"
@@ -26,7 +26,6 @@
         v-model="image"
         :items="['img1', 'img2', 'img3', 'img4']"
         label="Choose From existing images."
-        :rules="[v => !!v || 'Image is required']"
       ></v-select>
       <div id="preview">
         <img v-if="url" :src="url" />
@@ -46,6 +45,7 @@
   </div>
 </template>
 <script>
+import apiService from '@/apiConfig/itemService'
 export default {
   data() {
     return {
@@ -73,6 +73,18 @@ export default {
         this.url = ''
         this.imageFile = ''
       }
+    },
+    submit() {
+      const { bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description } = this
+      apiService.addItem({ bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description })
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log(error.reponse.data)
+          }
+        })
     }
   }
 
