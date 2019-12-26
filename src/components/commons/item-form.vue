@@ -76,7 +76,12 @@ export default {
     },
     submit() {
       const { bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description } = this
-      apiService.addItem({ bookname, author, year, pages, publisher, price, rating, category, image, imageFile, description })
+      let allData = { bookname, author, year, pages, publisher, price, rating, category, image, description }
+      allData = JSON.stringify(allData)
+      const fd = new FormData()
+      fd.append('imageFile', imageFile, imageFile.name)
+      fd.append('data', allData)
+      apiService.addItem(fd)
         .then(response => {
           console.log(response.data)
         })
@@ -99,7 +104,7 @@ export default {
 
 #preview img {
   max-width: 100%;
-  max-height: 500px;
+  max-height: 300px;
 }
 
 @media screen and (min-width: 992px) {
