@@ -66,7 +66,7 @@
   </div>
 </template>
 <script>
-import apiService from '@/apiConfig/eventService'
+import apiService from '@/apiConfig/authService'
 
 export default {
   name: 'registerForm',

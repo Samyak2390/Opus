@@ -71,6 +71,7 @@ export default {
         this.url = URL.createObjectURL(file)
       } else {
         this.url = ''
+        this.imageFile = ''
       }
     }
   }

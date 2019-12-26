@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import * as MutationTypes from '@/store/mutation-types'
-import apiService from '@/apiConfig/eventService'
+import apiService from '@/apiConfig/authService'
 
 const state = {
   user: localStorage.user ? JSON.parse(localStorage.user) : ''
