@@ -1,39 +1,54 @@
 <template>
-  <div class="card">
-    <v-icon
-      large
-      color="red"
-      style="position: absolute; right:0;margin: 5px 5px 0 0"
-    >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>
-    <div style="padding-top: 5px;">
-      <img
-        src="@/assets/test/a.jpg"
-        alt="Avatar"
-        style="width:100%; min-height: 200px; max-height: 200px;object-fit: contain"
-      />
-    </div>
-    <div class="container">
-      <div class="description">
-        <p class="book-name">Kafka on the shore</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p>By Murakami</p>
+  <div>
+    <div class="card">
+      <v-icon
+        v-if="this.currentUser"
+        large
+        color="red"
+        style="position: absolute; right:0;margin: 5px 5px 0 0"
+      >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>
+      <div style="padding-top: 5px;">
+        <img
+          :src="item.image_url || ''"
+          alt="Avatar"
+          style="width:100%; min-height: 200px; max-height: 200px;object-fit: contain"
+        />
       </div>
-      <div style="margin: 0 auto">
-        <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
-      </div>
-      <div class="price-tag">
-        <p style="margin-bottom: 2px">$7.99</p>
+      <div class="container">
+        <div class="description">
+          <p class="book-name">{{item.bookname || ''}}</p>
+          <p>{{item.description || ''}}</p>
+          <p>{{item.author_name || ''}}</p>
+        </div>
+        <div style="margin: 0 auto">
+          <v-rating
+            :value="parseInt(item.rating)"
+            color="amber"
+            dense
+            half-increments
+            readonly
+            size="20"
+          ></v-rating>
+        </div>
+        <div class="price-tag">
+          <p style="margin-bottom: 2px">${{item.price || ''}}</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: _ => ({
 
   }),
   props: {
-    isFav: Boolean
+    isFav: Boolean,
+    item: Object
+  },
+  computed: {
+    ...mapGetters({ currentUser: 'currentUser', page: 'currentPage' })
   }
 }
 </script>
@@ -41,6 +56,7 @@ export default {
 <style scoped>
 .book-name {
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 .description > p {
@@ -49,6 +65,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  text-transform: capitalize;
 }
 
 .price-tag {

@@ -5,5 +5,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  fetchHighestRated() {
+    return apiClient.get('/books/ratedItems.php')
+      .then(response => {
+        return response.data
+      })
   }
 }

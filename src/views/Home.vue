@@ -1,20 +1,53 @@
 <template>
   <div class="main-container-home">
     <div class="carousel">Carousel here</div>
-    <ISlider />
-    <ISlider />
-    <ISlider />
+    <ISlider :data="this.highestRated" />
     <Footer />
   </div>
 </template>
 
 <script>
+import apiService from '@/apiConfig/itemService'
 import ISlider from '../components/commons/items-slider.vue'
 import Footer from '../components/commons/footer'
 
 export default {
+  data() {
+    return {
+      highestRated: {
+        title: 'Top Rated',
+        data: []
+      },
+      bestsellers: {
+        title: 'Best Sellers',
+        data: []
+      },
+      newReleases: {
+        title: 'New Releases',
+        data: []
+      }
+    }
+  },
   components: {
     ISlider, Footer
+  },
+  methods: {
+    getHighestRated() {
+      apiService.fetchHighestRated()
+        .then(response => {
+          console.log('res>>>>', response)
+          this.highestRated.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>', error.response.data)
+          }
+        })
+    }
+
+  },
+  created() {
+    this.getHighestRated()
   }
 
 }

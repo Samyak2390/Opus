@@ -1,11 +1,15 @@
 <template>
-  <div style="max-width: 85%; margin: 0 auto">
+  <div style="max-width: 75%; margin: 0 auto">
     <div class="slider-group-title">
-      <p>Top Rated</p>
+      <p>{{data ? data.title: ''}}</p>
     </div>
     <v-slide-group :show-arrows="false" center-active>
-      <v-slide-item v-for="n in 10" :key="n" v-slot:default="{ active, toggle }">
-        <Item class="ma-4" />
+      <v-slide-item
+        v-for="(item, index) in data.data"
+        :key="index"
+        v-slot:default="{ active, toggle }"
+      >
+        <Item :item="item" class="ma-4" />
       </v-slide-item>
     </v-slide-group>
   </div>
@@ -15,8 +19,10 @@ import Item from './item'
 export default {
   components: {
     Item
+  },
+  props: {
+    data: Object
   }
-
 }
 </script>
 
