@@ -3,7 +3,8 @@
     <div class="slider-group-title">
       <p>{{data ? data.title: ''}}</p>
     </div>
-    <v-slide-group :show-arrows="false" center-active>
+    <div v-if="!data.data" class="empty-list">No {{data ? data.title: ''}} at the moment.</div>
+    <v-slide-group v-if="data.data" :show-arrows="false" center-active>
       <v-slide-item
         v-for="(item, index) in data.data"
         :key="index"
@@ -33,5 +34,11 @@ export default {
   font-weight: bold;
   font-family: "Advent Pro", sans-serif;
   letter-spacing: 1.3px;
+}
+
+.empty-list {
+  text-align: center;
+  padding: 50px 0;
+  background-color: #eee;
 }
 </style>

@@ -11,5 +11,17 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  fetchBestSellers() {
+    return apiClient.get('/books/bestsellers.php')
+      .then(response => {
+        return response.data
+      })
+  },
+  fetchNewReleases() {
+    return apiClient.get('/books/newReleases.php')
+      .then(response => {
+        return response.data
+      })
   }
 }

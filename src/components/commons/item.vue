@@ -1,12 +1,31 @@
 <template>
   <div>
     <div class="card">
-      <v-icon
+      <!-- <v-icon
         v-if="this.currentUser"
+        @click="_=>toggleFav(item)"
         large
         color="red"
         style="position: absolute; right:0;margin: 5px 5px 0 0"
-      >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>
+      >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>-->
+
+      <v-btn
+        v-if="!isFav && this.currentUser"
+        icon
+        style="position: absolute; right:0;margin: 5px 5px 0 0"
+      >
+        <v-icon @click="_=>addFav(item)" large color="red">mdi-heart-circle</v-icon>
+      </v-btn>
+
+      <v-btn
+        v-if="isFav && this.currentUser"
+        icon
+        style="position: absolute; right:0;margin: 5px 5px 0 0"
+      >
+        <!-- @click="_=>removeFav(item)" -->
+        <v-icon large color="red">mdi-heart-broken</v-icon>
+      </v-btn>
+
       <div style="padding-top: 5px;">
         <img
           :src="item.image_url || ''"
@@ -39,6 +58,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import apiService from '@/apiConfig/favService'
 export default {
   data: _ => ({
 
@@ -49,6 +69,20 @@ export default {
   },
   computed: {
     ...mapGetters({ currentUser: 'currentUser', page: 'currentPage' })
+  },
+  methods: {
+    addFav(item) {
+      // call api to add to favorites
+      apiService.addToFav({ book_id: '' })
+        .then(response => {
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.message || 'Book Added to favourite.' })
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    }
   }
 }
 </script>

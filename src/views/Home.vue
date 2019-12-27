@@ -2,6 +2,8 @@
   <div class="main-container-home">
     <div class="carousel">Carousel here</div>
     <ISlider :data="this.highestRated" />
+    <ISlider :data="this.bestsellers" />
+    <ISlider :data="this.newReleases" />
     <Footer />
   </div>
 </template>
@@ -35,8 +37,29 @@ export default {
     getHighestRated() {
       apiService.fetchHighestRated()
         .then(response => {
-          console.log('res>>>>', response)
           this.highestRated.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>', error.response.data)
+          }
+        })
+    },
+    getBestSellers() {
+      apiService.fetchBestSellers()
+        .then(response => {
+          this.bestsellers.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>', error.response.data)
+          }
+        })
+    },
+    getNewReleases() {
+      apiService.fetchNewReleases()
+        .then(response => {
+          this.newReleases.data = response.data
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
@@ -48,8 +71,9 @@ export default {
   },
   created() {
     this.getHighestRated()
+    this.getBestSellers()
+    this.getNewReleases()
   }
-
 }
 </script>
 <style scoped>
