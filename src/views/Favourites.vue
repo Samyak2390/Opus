@@ -1,17 +1,8 @@
 <template>
   <div>
-    <div v-if="true" class="main-container-fav">
+    <div v-if="items.length > 0" class="main-container-fav">
       <v-btn text class="remove-button">Remove All</v-btn>
       <div class="fav-gallery">
-        <div>
-          <Item :isFav="true" />
-        </div>
-        <div>
-          <Item :isFav="true" />
-        </div>
-        <div>
-          <Item :isFav="true" />
-        </div>
         <div>
           <Item :isFav="true" />
         </div>
@@ -26,11 +17,34 @@
 </template>
 
 <script>
+import apiService from '@/apiConfig/favService'
 import Footer from '../components/commons/footer'
 import Item from '../components/commons/item'
 export default {
+  data() {
+    return {
+      items: []
+    }
+  },
   components: {
     Footer, Item
+  },
+  methods: {
+    getFav() {
+      apiService.fetchFav()
+        .then(response => {
+          console.log('res>>>', response)
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    }
+
+  },
+  created() {
+    this.getFav()
   }
 
 }

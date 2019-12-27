@@ -73,7 +73,7 @@ export default {
   methods: {
     addFav(item) {
       // call api to add to favorites
-      apiService.addToFav({ book_id: '' })
+      apiService.addToFav({ book_id: item.book_id })
         .then(response => {
           this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.message || 'Book Added to favourite.' })
         })
