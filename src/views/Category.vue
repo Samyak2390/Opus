@@ -1,7 +1,14 @@
 <template>
   <div>
-    <div v-if="items.length > 0" class="main-container-cat">
-      <v-btn text class="remove-button">Remove All</v-btn>
+    <div v-if=" items && items.length > 0" class="main-container-cat">
+      <v-select
+        :items="sortingOption"
+        label="Sort by"
+        dense
+        style="width:200px;margin:20px auto; font-size: 14px"
+        v-model="sort"
+        @change="sorted"
+      ></v-select>
       <div class="cat-gallery">
         <div v-for="(item, index) in items" :key="index">
           <Item :item="item" :isFav="false" />
@@ -24,7 +31,9 @@ export default {
   props: ['category'],
   data() {
     return {
-      items: []
+      sort: '',
+      items: [],
+      sortingOption: ['High Rating to Low', 'Low Rating to High', 'High Price to Low', 'Low Price to High', 'Newest to Oldest', 'Oldest to Newest']
     }
   },
   components: {
@@ -33,6 +42,18 @@ export default {
   methods: {
     getCategoryData() {
       apiService.fetchCategoryData({ category: this.category })
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    },
+
+    sorted() {
+      apiService.sortData({ category: this.category, sortby: this.sort })
         .then(response => {
           this.items = response.data
         })

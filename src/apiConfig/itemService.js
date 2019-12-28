@@ -35,6 +35,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  sortData(payload) {
+    return apiClient.post('/books/sortData.php', payload)
+      .then(response => {
+        return response.data
+      })
   }
-
 }
