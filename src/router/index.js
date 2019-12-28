@@ -9,6 +9,7 @@ import Dashboard from '../views/admin/Dashboard.vue'
 import Items from '../views/admin/Items.vue'
 import AddItem from '../views/admin/AddItem.vue'
 import Category from '../views/Category.vue'
+import Search from '../views/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,12 @@ const routes = [
     path: '/category',
     name: 'category',
     component: Category,
+    props: true
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search,
     props: true
   },
   {

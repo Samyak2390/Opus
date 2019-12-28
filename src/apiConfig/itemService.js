@@ -41,5 +41,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  searchData(payload) {
+    return apiClient.post('/books/search.php', payload)
+      .then(response => {
+        return response.data
+      })
   }
 }

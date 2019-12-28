@@ -83,16 +83,20 @@
           <div :class="page == '/login' || page =='/register' ? 'hide' :'search-bar'">
             <div class="item1">
               <v-select
+                height="40"
+                v-model="searchCategory"
                 dark
                 color="white"
-                :items="['All', 'Comics', 'History', 'Biography']"
+                :items="categories"
                 placeholder="Choose"
               ></v-select>
             </div>
             <div class="item2">
-              <v-text-field dark placeholder="Search">
+              <v-text-field dark placeholder="Search" v-model="searchText" @keypress="e=>search(e)">
                 <template slot="append">
-                  <v-icon>mdi-magnify</v-icon>
+                  <v-btn icon @click="e=>search(e)">
+                    <v-icon>mdi-magnify</v-icon>
+                  </v-btn>
                 </template>
               </v-text-field>
             </div>
@@ -204,7 +208,9 @@ export default {
     extended: false,
     color1: 'rgba(236, 112, 99, 1)',
     color2: 'transparent',
-    categories: []
+    categories: [],
+    searchCategory: '',
+    searchText: ''
   }),
 
   computed: {
@@ -230,8 +236,7 @@ export default {
     getCategory() {
       apiService.fetchCategory()
         .then(response => {
-          this.categories = response.data
-          console.log('cat>>>', this.categories)
+          this.categories = ['All', ...response.data]
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
@@ -253,6 +258,11 @@ export default {
           return true
         }
         return false
+      }
+    },
+    search(e) {
+      if (e.keyCode === 13 || e.type === 'click') {
+        this.$router.push({ path: '/search', query: { searchText: this.searchText, category: this.searchCategory } })
       }
     }
   },
