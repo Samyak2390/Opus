@@ -112,16 +112,12 @@
                     </span>
                   </template>
 
-                  <v-list>
-                    <v-list-item>
-                      <v-list-item-title>Fiction</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>Comics</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>History</v-list-item-title>
-                    </v-list-item>
+                  <v-list v-for="(category, index) in categories" :key="index">
+                    <router-link :to="{ name: 'category', params: { category } }">
+                      <v-list-item>
+                        <v-list-item-title style="text-transform: capitalize">{{category}}</v-list-item-title>
+                      </v-list-item>
+                    </router-link>
                   </v-list>
                 </v-menu>
               </li>
@@ -181,7 +177,7 @@
 // import apiService from '@/apiConfig/eventService'
 import snackbar from '@/components/commons/snackbar'
 import loader from '@/components/commons/loader'
-
+import apiService from '@/apiConfig/itemService'
 import { mapGetters } from 'vuex'
 export default {
   name: 'App',
@@ -207,7 +203,8 @@ export default {
     shrinkOnScroll: false,
     extended: false,
     color1: 'rgba(236, 112, 99, 1)',
-    color2: 'transparent'
+    color2: 'transparent',
+    categories: []
   }),
 
   computed: {
@@ -217,7 +214,7 @@ export default {
 
   created() {
     this.checkCurrentLogin()
-
+    this.getCategory()
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },
@@ -229,6 +226,18 @@ export default {
   methods: {
     handleResize() {
       this.window.width = window.innerWidth
+    },
+    getCategory() {
+      apiService.fetchCategory()
+        .then(response => {
+          this.categories = response.data
+          console.log('cat>>>', this.categories)
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>>', error.response.data)
+          }
+        })
     },
     checkCurrentLogin() {
       if (!this.currentUser && this.$route.path === '/favourites') {

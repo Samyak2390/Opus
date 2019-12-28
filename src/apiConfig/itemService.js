@@ -23,5 +23,18 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  fetchCategory() {
+    return apiClient.get('/books/categories.php')
+      .then(response => {
+        return response.data
+      })
+  },
+  fetchCategoryData(payload) {
+    return apiClient.post('/books/categoryData.php', payload)
+      .then(response => {
+        return response.data
+      })
   }
+
 }

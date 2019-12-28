@@ -8,6 +8,7 @@ import Admin from '../views/admin/Admin.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Items from '../views/admin/Items.vue'
 import AddItem from '../views/admin/AddItem.vue'
+import Category from '../views/Category.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,12 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/category',
+    name: 'category',
+    component: Category,
+    props: true
   },
   {
     // must be authorized
