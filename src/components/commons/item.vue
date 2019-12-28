@@ -37,7 +37,7 @@
         <div class="description">
           <p class="book-name">{{item.bookname || ''}}</p>
           <p>{{item.description || ''}}</p>
-          <p>{{item.author_name || ''}}</p>
+          <p>{{item.author_name || ''}} {{item.year || ''}}</p>
         </div>
         <div style="margin: 0 auto">
           <v-rating
