@@ -7,20 +7,24 @@
             <th>S.no</th>
             <th class="text-left">Name</th>
             <th class="text-left">Author</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in desserts" :key="item.name">
+          <tr v-for="(item, index) in items" :key="item.name">
             <td>{{index+1}}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.author }}</td>
+            <td>{{ item.bookname }}</td>
+            <td>{{ item.author_name }}</td>
             <td>
-              <v-btn color="teal darken-1" text>Edit</v-btn>
+              <v-btn color="teal darken-1" icon>
+                <v-icon>mdi-database-edit</v-icon>
+              </v-btn>
             </td>
             <td>
-              <v-btn color="red darken-4" text>Delete</v-btn>
+              <v-btn color="red darken-4" icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </td>
           </tr>
         </tbody>
@@ -29,30 +33,36 @@
   </div>
 </template>
 <script>
+import apiService from '@/apiConfig/itemService'
 export default {
   data: () => ({
     show: false,
-    desserts: [
-      {
-        name: 'Kafka on the shore',
-        author: 'Haruki Murakami'
-      },
-      {
-        name: 'The Catcher in the Rye',
-        author: 'J.D. Salinger'
-      },
-      {
-        name: 'A Walk to Remember',
-        author: 'Nicholas Sparks'
-      },
-      {
-        name: 'Adultery',
-        author: 'Paulo Coelho'
-      }
-    ]
-  })
+    items: []
+  }),
+  methods: {
+    getAllItems() {
+      apiService.fetchAllItems()
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>', error.response.data)
+          }
+        })
+    }
+  },
+  created() {
+    this.getAllItems()
+  },
+  updated() {
+    this.getAllItems()
+  }
 
 }
 </script>
 <style scoped>
+td {
+  text-transform: capitalize;
+}
 </style>

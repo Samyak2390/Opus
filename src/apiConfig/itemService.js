@@ -53,5 +53,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  fetchAllItems() {
+    return apiClient.get('admin/getAllItems.php')
+      .then(response => {
+        return response.data
+      })
   }
 }
