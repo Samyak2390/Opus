@@ -116,7 +116,7 @@
                     </span>
                   </template>
 
-                  <v-list v-for="(category, index) in categories" :key="index">
+                  <v-list v-for="(category, index) in categories" :key="index" height="80">
                     <v-list-item>
                       <v-list-item-title
                         style="text-transform: capitalize"

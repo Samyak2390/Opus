@@ -47,5 +47,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  fetchDashboardData() {
+    return apiClient.get('/admin/dashboard.php')
+      .then(response => {
+        return response.data
+      })
   }
 }

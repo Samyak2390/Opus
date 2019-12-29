@@ -9,8 +9,7 @@
           gradient="to bottom, rgba(246, 112, 99, 0.6), rgba(246, 112, 99, 0.4)"
           height="200px"
         >
-          <!-- <v-card-title v-text="card.title"></v-card-title> -->
-          <p class="display-4 text-center font-weight-bold">0</p>
+          <p class="display-4 text-center font-weight-bold">{{card.data}}</p>
           <p class="display-1 text--white text-center">{{card.title}}</p>
         </v-img>
       </v-card>
@@ -18,14 +17,33 @@
   </div>
 </template>
 <script>
+import apiService from '@/apiConfig/itemService'
 export default {
   data: () => ({
     cards: [
-      { title: 'Users', src: require('../../assets/test/people.jpeg'), flex: 12 },
-      { title: 'Items', src: require('../../assets/test/books.jpeg'), flex: 12 },
-      { title: 'Admins', src: require('../../assets/test/admin.jpeg'), flex: 12 }
+      { title: 'Users', src: require('../../assets/test/people.jpeg'), flex: 12, data: '' },
+      { title: 'Items', src: require('../../assets/test/books.jpeg'), flex: 12, data: '' },
+      { title: 'Admins', src: require('../../assets/test/admin.jpeg'), flex: 12, data: '' }
     ]
-  })
+  }),
+  methods: {
+    getDashboardData() {
+      apiService.fetchDashboardData()
+        .then(response => {
+          console.log(response.data)
+          this.cards[0].data = response.data.users
+          this.cards[1].data = response.data.items
+          this.cards[2].data = response.data.admins
+        }).catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log(error.response.data.message)
+          }
+        })
+    }
+  },
+  created() {
+    this.getDashboardData()
+  }
 
 }
 </script>
