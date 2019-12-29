@@ -28,9 +28,9 @@ import apiService from '@/apiConfig/itemService'
 import Footer from '../components/commons/footer'
 import Item from '../components/commons/item'
 export default {
-  props: ['category'],
   data() {
     return {
+      category: '',
       sort: '',
       items: [],
       sortingOption: ['High Rating to Low', 'Low Rating to High', 'High Price to Low', 'Low Price to High', 'Newest to Oldest', 'Oldest to Newest']
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     getCategoryData() {
+      this.category = this.$route.query.category
       apiService.fetchCategoryData({ category: this.category })
         .then(response => {
           this.items = response.data
@@ -73,6 +74,12 @@ export default {
   },
   mounted() {
     this.getCategoryData()
+  },
+  watch: {
+    '$route.fullPath': function () {
+      this.getCategoryData()
+      this.sorted()
+    }
   }
 
 }

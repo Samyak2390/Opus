@@ -117,11 +117,12 @@
                   </template>
 
                   <v-list v-for="(category, index) in categories" :key="index">
-                    <router-link :to="{ name: 'category', params: { category } }">
-                      <v-list-item>
-                        <v-list-item-title style="text-transform: capitalize">{{category}}</v-list-item-title>
-                      </v-list-item>
-                    </router-link>
+                    <v-list-item>
+                      <v-list-item-title
+                        style="text-transform: capitalize"
+                        @click="_=>goToCategory(category)"
+                      >{{category}}</v-list-item-title>
+                    </v-list-item>
                   </v-list>
                 </v-menu>
               </li>
@@ -230,6 +231,9 @@ export default {
   },
 
   methods: {
+    goToCategory(cat) {
+      this.$router.push({ path: '/category', query: { category: cat } }).catch(ignore => { })
+    },
     handleResize() {
       this.window.width = window.innerWidth
     },
@@ -262,7 +266,7 @@ export default {
     },
     search(e) {
       if (e.keyCode === 13 || e.type === 'click') {
-        this.$router.push({ path: '/search', query: { searchText: this.searchText, category: this.searchCategory } })
+        this.$router.push({ path: '/search', query: { searchText: this.searchText, category: this.searchCategory } }).catch(ignore => { })
       }
     }
   },

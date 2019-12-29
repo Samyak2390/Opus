@@ -42,13 +42,56 @@ export default {
   },
   methods: {
     sorted() {
-      apiService.sortData({ category: this.category, sortby: this.sort })
+      if (this.items.length > 1) {
+        switch (this.sort.toLowerCase()) {
+          case 'high rating to low':
+            this.items = this.items.sort((a, b) => {
+              return b.rating - a.rating
+            })
+            break
+
+          case 'low rating to high':
+            this.items = this.items.sort((a, b) => {
+              return a.rating - b.rating
+            })
+            break
+
+          case 'high price to low':
+            this.items = this.items.sort((a, b) => {
+              return b.price - a.price
+            })
+            break
+
+          case 'low price to high':
+            this.items = this.items.sort((a, b) => {
+              return a.price - b.price
+            })
+            break
+
+          case 'newest to oldest':
+            this.items = this.items.sort((a, b) => {
+              return b.year - a.year
+            })
+            break
+
+          case 'oldest to newest':
+            this.items = this.items.sort((a, b) => {
+              return a.year - b.year
+            })
+            break
+        }
+      }
+    },
+    search() {
+      this.searchText = this.$route.query.searchText
+      this.category = this.$route.query.category
+      apiService.searchData({ category: this.category, searchText: this.searchText })
         .then(response => {
           this.items = response.data
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+            console.log('error>>>>', error.response.data)
           }
         })
     }
@@ -58,21 +101,13 @@ export default {
     this.$store.dispatch('changePage', '/search')
   },
   created() {
-    this.searchText = this.$route.query.searchText
-    this.category = this.$route.query.category
-    console.log('search>>>', this.searchText, this.category)
-    apiService.searchData({ category: this.category, searchText: this.searchText })
-      .then(response => {
-        console.log(response.data)
-        this.items = response.data
-      })
-      .catch(error => {
-        if (error && error.response !== 'undefined') {
-          console.log('error>>>>', error.response.data)
-        }
-      })
+    this.search()
   },
-  mounted() {
+  watch: {
+    '$route.fullPath': function () {
+      this.search()
+      this.sorted()
+    }
   }
 
 }
