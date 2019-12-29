@@ -1,14 +1,45 @@
 <template>
   <div>
     <p class="title font-weight-light text-center">Fill the form below to add an item.</p>
-    <ItemForm />
+    <ItemForm :data="{}" @submit="submit($event)" />
   </div>
 </template>
 <script>
 import ItemForm from '@/components/commons/item-form'
+import apiService from '@/apiConfig/itemService'
 export default {
   components: {
     ItemForm
+  },
+  methods: {
+    submit(data) {
+      console.log('submit to add called')
+      apiService.addItem(data)
+        .then(response => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          this.data = {}
+          this.imageFile = ''
+          this.url = ''
+          // this.$router.push({ path: '/login' })
+          // this.$store.dispatch('changePage', '/login')
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
+        })
+        .catch(error => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          if (error && error.response !== 'undefined') {
+            let errorMessage = ''
+            const errors = error.response.data.message
+            if (Array.isArray(errors)) {
+              errors.forEach(error => {
+                errorMessage += error + '\n'
+              })
+            } else {
+              errorMessage = errors
+            }
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while adding Item.' })
+          }
+        })
+    }
   }
 
 }

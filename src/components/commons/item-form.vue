@@ -1,6 +1,7 @@
 <template>
   <div class="item-form-wrapper">
     <v-form class="item-form" v-model="valid" ref="form">
+      <v-text-field v-if="data.book_id" v-model="data.book_id" label="Book id" disabled></v-text-field>
       <v-text-field
         v-model="data.bookname"
         label="Book Name"
@@ -29,15 +30,24 @@
         label="Is Best Seller?"
         :rules="[v => !!v || 'Best Seller is required', v=> (v == '1' || v == '0') || 'Only 1 (true) or 0 (false)' ]"
       ></v-text-field>
-      <v-select
+      <v-text-field
         v-model="data.category"
-        :items="['Fiction', 'Historical', 'Psychology', 'Nonfiction']"
         label="Category"
         :rules="[v => !!v || 'Category is required']"
-      ></v-select>
+      ></v-text-field>
+      <!-- <v-select
+        v-model="data.category"
+        :item-text="data.category"
+        :item-value="data.category"
+        :items="['fiction', 'Historical', 'Psychology', 'nonfiction']"
+        label="Category"
+        :rules="[v => !!v || 'Category is required']"
+      ></v-select>-->
       <v-select
         v-model="data.image"
-        :items="['img1', 'img2', 'img3', 'img4']"
+        :item-text="data.image"
+        :item-value="data.image"
+        :items="images"
         label="Choose From existing images."
       ></v-select>
       <div id="preview">
@@ -64,10 +74,27 @@ export default {
     return {
       url: '',
       valid: true,
-      data: {}
+      images: []
     }
   },
+  props: {
+    data: Object
+  },
+  created() {
+    this.getImages()
+  },
   methods: {
+    getImages() {
+      apiService.fetchImages()
+        .then(response => {
+          this.images = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            console.log('error>>>', error.response.data)
+          }
+        })
+    },
     onFileChange(file) {
       if (file) {
         this.imageFile = file
@@ -78,38 +105,16 @@ export default {
       }
     },
     submit() {
-      this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
+      // this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
       // const { bookname, author, year, pages, publisher, price, rating, bestseller, category, image, imageFile, description } = this.data
       let allData = this.data
       allData = JSON.stringify(allData)
       const fd = new FormData()
-      fd.append('imageFile', this.imageFile, this.imageFile.name)
+      if (this.imageFile) {
+        fd.append('imageFile', this.imageFile, this.imageFile.name)
+      }
       fd.append('data', allData)
-      apiService.addItem(fd)
-        .then(response => {
-          this.$store.dispatch('loader', { show: false, message: '' })
-          this.data = {}
-          this.imageFile = ''
-          this.url = ''
-          // this.$router.push({ path: '/login' })
-          // this.$store.dispatch('changePage', '/login')
-          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
-        })
-        .catch(error => {
-          this.$store.dispatch('loader', { show: false, message: '' })
-          if (error && error.response !== 'undefined') {
-            let errorMessage = ''
-            const errors = error.response.data.message
-            if (Array.isArray(errors)) {
-              errors.forEach(error => {
-                errorMessage += error + '\n'
-              })
-            } else {
-              errorMessage = errors
-            }
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while adding Item.' })
-          }
-        })
+      this.$emit('submit', fd)
     }
   }
 

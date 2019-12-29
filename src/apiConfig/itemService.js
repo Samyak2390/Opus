@@ -55,7 +55,19 @@ export default {
       })
   },
   fetchAllItems() {
-    return apiClient.get('admin/getAllItems.php')
+    return apiClient.get('/admin/getAllItems.php')
+      .then(response => {
+        return response.data
+      })
+  },
+  fetchImages() {
+    return apiClient.get('/books/getimages.php')
+      .then(response => {
+        return response.data
+      })
+  },
+  updateItem(payload) {
+    return apiClient.post('/admin/updateitem.php', payload)
       .then(response => {
         return response.data
       })
