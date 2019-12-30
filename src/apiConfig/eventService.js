@@ -1,10 +1,10 @@
 import axios from 'axios'
-
+// axios.defaults.withCredentials = true
 const devEnv = 'http://localhost:80/WAT/wat2019/api-opus/api'
 // const prodEnv = ''
 
-//,
-//'withCredentials': true
+// ,
+// 'withCredentials': true
 
 export const apiClient = axios.create({
   baseURL: devEnv,

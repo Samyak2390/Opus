@@ -3,8 +3,8 @@
     <div v-if="items.length > 0" class="main-container-fav">
       <v-btn text class="remove-button">Remove All</v-btn>
       <div class="fav-gallery">
-        <div>
-          <Item :isFav="true" />
+        <div v-for="(item, index) in items" :key="index">
+          <Item :item="item" :isFav="true" />
         </div>
       </div>
     </div>
@@ -34,6 +34,7 @@ export default {
       apiService.fetchFav()
         .then(response => {
           console.log('res>>>', response)
+          this.items = response.data
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
