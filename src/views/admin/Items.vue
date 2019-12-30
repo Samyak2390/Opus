@@ -32,7 +32,7 @@
               </v-dialog>
             </td>
             <td>
-              <v-btn color="red darken-4" icon>
+              <v-btn color="red darken-4" icon @click="_=>deleteItem(item)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -40,6 +40,16 @@
         </tbody>
       </template>
     </v-simple-table>
+    <v-dialog v-model="dialog2" width="30rem">
+      <v-card>
+        <p class="text-center title">Are you sure you want to delete</p>
+        <p class="text-center text-capitalize">{{currentItem.bookname}} by {{currentItem.author}} ?</p>
+        <div style="display:flex; justify-content: space-evenly">
+          <v-btn color="green darken-1" text @click="_=>confirmDelete(this.currentItem)">Yes</v-btn>
+          <v-btn color="red darken-1" text @click="dialog2 = false">No</v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -50,7 +60,8 @@ export default {
     show: false,
     items: [],
     currentItem: {},
-    dialog: false
+    dialog: false,
+    dialog2: false
   }),
   components: {
     Form
@@ -72,15 +83,41 @@ export default {
       this.currentItem = item
     },
 
+    deleteItem(item) {
+      this.dialog2 = true
+      this.currentItem = item
+    },
+
+    confirmDelete(curr) {
+      this.dialog2 = false
+      this.$store.dispatch('loader', { show: true, message: 'Deleting Item' })
+      apiService.deleteItem({ book_id: curr.book_id })
+        .then(response => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          const filtered = this.items.filter(item => {
+            return item.book_id !== curr.book_id
+          })
+          this.items = filtered
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item deleted Successfully.' })
+        })
+        .catch(error => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting Item.' })
+          }
+        })
+    },
+
     submit(data) {
-      console.log('submit to update called')
+      this.$store.dispatch('loader', { show: true, message: 'Updating Item' })
       apiService.updateItem(data)
         .then(response => {
-          console.log(response)
+          this.$store.dispatch('loader', { show: false, message: '' })
+          this.getAllItems()
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            console.log('error>>>', error.response.data)
           }
         })
     }
@@ -88,11 +125,7 @@ export default {
   },
   created() {
     this.getAllItems()
-  },
-  updated() {
-    this.getAllItems()
   }
-
 }
 </script>
 <style scoped>

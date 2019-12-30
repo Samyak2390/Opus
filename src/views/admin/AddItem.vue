@@ -13,15 +13,12 @@ export default {
   },
   methods: {
     submit(data) {
-      console.log('submit to add called')
+      this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
       apiService.addItem(data)
         .then(response => {
           this.$store.dispatch('loader', { show: false, message: '' })
-          this.data = {}
-          this.imageFile = ''
-          this.url = ''
-          // this.$router.push({ path: '/login' })
-          // this.$store.dispatch('changePage', '/login')
+          this.$router.push({ path: '/admin/items' })
+          this.$store.dispatch('changePage', '/admin/items')
           this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
         })
         .catch(error => {

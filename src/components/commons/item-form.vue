@@ -105,7 +105,6 @@ export default {
       }
     },
     submit() {
-      // this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
       // const { bookname, author, year, pages, publisher, price, rating, bestseller, category, image, imageFile, description } = this.data
       let allData = this.data
       allData = JSON.stringify(allData)

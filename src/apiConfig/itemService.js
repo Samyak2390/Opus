@@ -71,5 +71,11 @@ export default {
       .then(response => {
         return response.data
       })
+  },
+  deleteItem(payload) {
+    return apiClient.post('/admin/deleteitem.php', payload)
+      .then(response => {
+        return response.data
+      })
   }
 }
