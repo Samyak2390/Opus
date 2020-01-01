@@ -21,9 +21,9 @@
         v-if="isFav && this.currentUser"
         icon
         style="position: absolute; right:0;margin: 5px 5px 0 0"
+        @click="_=>removeFav(item)"
       >
-        <!-- @click="_=>removeFav(item)" -->
-        <v-icon large color="red">mdi-heart-broken</v-icon>
+        <v-icon large color="red">mdi-delete-circle-outline</v-icon>
       </v-btn>
 
       <div style="padding-top: 5px;">
@@ -76,6 +76,19 @@ export default {
       apiService.addToFav({ book_id: item.book_id })
         .then(response => {
           this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.message || 'Book Added to favourite.' })
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    },
+    removeFav(item) {
+      // call api to add to favorites
+      apiService.deleteFav({ book_id: item.book_id })
+        .then(response => {
+          this.$emit('remove', { book_id: item.book_id })
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.message || 'Book Removed from favourites.' })
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {

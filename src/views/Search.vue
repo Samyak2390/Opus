@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     sorted() {
-      if (this.items.length > 1) {
+      if (this.items && this.items.length > 1) {
         switch (this.sort.toLowerCase()) {
           case 'high rating to low':
             this.items = this.items.sort((a, b) => {
@@ -91,7 +91,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            console.log('error>>>>', error.response.data)
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     }

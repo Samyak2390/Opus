@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="items.length > 0" class="main-container-fav">
-      <v-btn text class="remove-button">Remove All</v-btn>
+      <v-btn text class="remove-button" @click="_=>removeAll()">Remove All</v-btn>
       <div class="fav-gallery">
         <div v-for="(item, index) in items" :key="index">
-          <Item :item="item" :isFav="true" />
+          <Item :item="item" :isFav="true" @remove="remove($event)" />
         </div>
       </div>
     </div>
@@ -33,8 +33,25 @@ export default {
     getFav() {
       apiService.fetchFav()
         .then(response => {
-          console.log('res>>>', response)
           this.items = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    },
+    remove(payload) {
+      const filtered = this.items.filter(item => {
+        return item.book_id !== payload.book_id
+      })
+      this.items = filtered
+    },
+    removeAll() {
+      apiService.deleteAll()
+        .then(response => {
+          this.items = []
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.message || 'All books removed.' })
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {

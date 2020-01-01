@@ -2,10 +2,6 @@
 import axios from 'axios'
 export default {
   addToFav(payload) {
-    // return apiClient.post('users/addfavourite.php', payload)
-    //   .then(response => {
-    //     return response.data
-    //   })
     return axios({
       method: 'post',
       url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/addfavourite.php',
@@ -19,13 +15,6 @@ export default {
       return response.data
     })
   },
-  // fetchFav() {
-  //   return apiClient.get('users/getfavourites.php')
-  //     .then(response => {
-  //       console.log('resp>>>>>', response)
-  //       return response.data
-  //     })
-  // }
 
   fetchFav() {
     return axios({
@@ -39,5 +28,35 @@ export default {
     }).then(response => {
       return response.data
     })
+  },
+
+  deleteFav(payload) {
+    return axios({
+      method: 'delete',
+      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/deleteFavourite.php',
+      data: payload,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      return response.data
+    })
+  },
+
+  deleteAll() {
+    return axios({
+      method: 'delete',
+      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/deleteAllFavourite.php',
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      return response.data
+    })
   }
+
 }
