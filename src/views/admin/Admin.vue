@@ -40,7 +40,8 @@ export default {
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/admin/dashboard' },
         { title: 'Items', icon: 'mdi-bookshelf', path: '/admin/items' },
-        { title: 'Add Items', icon: 'mdi-playlist-plus', path: '/admin/additems' }
+        { title: 'Add Items', icon: 'mdi-playlist-plus', path: '/admin/additems' },
+        { title: 'Users', icon: 'mdi-account-group', path: '/admin/users' }
 
       ],
       right: null

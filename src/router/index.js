@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Favourites from '../views/Favourites.vue'
 import Admin from '../views/admin/Admin.vue'
+import Users from '../views/admin/Users.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Items from '../views/admin/Items.vue'
 import AddItem from '../views/admin/AddItem.vue'
@@ -72,6 +73,10 @@ const routes = [
       {
         path: 'additems',
         component: AddItem
+      },
+      {
+        path: 'users',
+        component: Users
       }
 
     ]
