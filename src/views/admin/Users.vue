@@ -52,12 +52,11 @@ export default {
     getAllUsers() {
       apiService.getUsers()
         .then(response => {
-          console.log('res>>>>', response.data)
           this.items = response.data
         })
         .catch(error => {
           if (error && error.response) {
-
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
           }
         })
     },

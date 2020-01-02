@@ -302,7 +302,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            console.log('error>>>>', error.response.data)
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
           }
         })
     },
@@ -334,7 +334,6 @@ export default {
       this.drawer = false
     }
   },
-  // redirect from favourites page to login page when not logged in*********** fix: not sure need to look at this part
   updated() {
     this.checkCurrentLogin()
   }

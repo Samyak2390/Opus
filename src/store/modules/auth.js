@@ -20,10 +20,10 @@ const actions = {
   logout({ commit }) {
     apiService.userLogout()
       .then(response => {
-        console.log('logout res>>>>>', response)
+        this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.data || 'Successfully Logged out.' })
       })
       .catch(error => {
-        console.log('logout err>>>>', error.response.data)
+        this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while logging out.' })
       })
     commit(MutationTypes.LOGOUT)
   }

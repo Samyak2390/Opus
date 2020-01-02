@@ -30,13 +30,12 @@ export default {
     getDashboardData() {
       apiService.fetchDashboardData()
         .then(response => {
-          console.log(response.data)
           this.cards[0].data = response.data.users
           this.cards[1].data = response.data.items
           this.cards[2].data = response.data.admins
         }).catch(error => {
           if (error && error.response !== 'undefined') {
-            console.log(error.response.data.message)
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
           }
         })
     }

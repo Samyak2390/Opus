@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <Banner :for="className" />
-    <LoginForm />
+    <LoginForm style="margin-top: 70px" />
     <div class="login-page-links">
       <a
         href="/register"

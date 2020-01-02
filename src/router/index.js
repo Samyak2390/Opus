@@ -11,11 +11,18 @@ import Items from '../views/admin/Items.vue'
 import AddItem from '../views/admin/AddItem.vue'
 import Category from '../views/Category.vue'
 import Search from '../views/Search.vue'
+import NotFound from '../views/PageNotFound.vue'
+
 import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '*',
+    name: 'notFound',
+    component: NotFound
+  },
   {
     // must not be authorized
     path: '/login',

@@ -50,7 +50,7 @@
       <v-checkbox
         v-model="checkbox"
         :rules="[v => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
+        label="Agree Terms and Conditions?"
         required
       ></v-checkbox>
     </v-form>
@@ -129,7 +129,6 @@ export default {
             errors.forEach(error => {
               errorMessage += error + '\n'
             })
-            console.log('emsg>>>>>', errorMessage)
             this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while registering.' })
           }
         })
@@ -139,6 +138,9 @@ export default {
 </script>
 
 <style scoped>
+.register-form-wrapper {
+  margin-bottom: 30px;
+}
 @media screen and (min-width: 992px) {
   .register-form {
     width: 40%;
