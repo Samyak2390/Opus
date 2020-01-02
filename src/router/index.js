@@ -11,6 +11,7 @@ import Items from '../views/admin/Items.vue'
 import AddItem from '../views/admin/AddItem.vue'
 import Category from '../views/Category.vue'
 import Search from '../views/Search.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,15 @@ const routes = [
     // must not be authorized
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.currentUser) {
+        next()
+      } else {
+        store.dispatch('changePage', '/')
+        next('/')
+      }
+    }
   },
   {
     path: '/',
@@ -50,17 +59,18 @@ const routes = [
     name: 'favourites',
     component: Favourites
   },
-
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
   {
     path: '/admin',
     redirect: '/admin/dashboard',
     name: 'admin',
     component: Admin,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.currentUser && store.getters.currentUser.role === '1') {
+        next()
+      } else {
+        next('/')
+      }
+    },
     children: [
       {
         path: 'dashboard',

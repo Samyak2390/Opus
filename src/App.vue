@@ -1,5 +1,4 @@
 <template>
-  <!-- Put a snack bar to show error, success which is handled from the store -->
   <div>
     <v-app>
       <loader />
@@ -25,7 +24,6 @@
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
 
-          <!-- <v-toolbar-title></v-toolbar-title> -->
           <div
             :class="page == '/login' || page =='/register' ? 'hide' :'search-bar'"
             style="width: 95%; margin: 0 auto"
@@ -56,19 +54,79 @@
                 <v-list-item-title>Home</v-list-item-title>
               </v-list-item>
 
-              <v-list-item href="/about" :disabled="page=='/about' ? true : false">
-                <v-list-item-title>About</v-list-item-title>
+              <v-list-group no-action sub-group value="true">
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Category</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+                <v-list-item v-for="(category, index) in categories" :key="index" link>
+                  <v-list-item-title
+                    style="text-transform: capitalize"
+                    @click="_=>goToCategory(category)"
+                  >{{category}}</v-list-item-title>
+                </v-list-item>
+              </v-list-group>
+
+              <v-list-item
+                v-if="currentUser"
+                href="/favourites"
+                :disabled="page=='/favourites' ? true : false"
+              >
+                <v-list-item-title>Favourites</v-list-item-title>
               </v-list-item>
 
-              <v-list-item href="/login" :disabled="page=='/login' ? true : false">
+              <v-list-item
+                v-if="currentUser && currentUser.role==='1'"
+                href="/admin/dashboard"
+                :disabled="page=='/admin/dashboard' ? true : false"
+              >
+                <v-list-item-title>Admin Dashboard</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                v-if="currentUser && currentUser.role==='1'"
+                href="/admin/items"
+                :disabled="page=='/admin/items' ? true : false"
+              >
+                <v-list-item-title>Items</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                v-if="currentUser && currentUser.role==='1'"
+                href="/admin/additems"
+                :disabled="page=='/admin/additems' ? true : false"
+              >
+                <v-list-item-title>Add Items</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                v-if="currentUser && currentUser.role==='1'"
+                href="/admin/users"
+                :disabled="page=='/admin/users' ? true : false"
+              >
+                <v-list-item-title>Users</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                v-if="!currentUser"
+                href="/login"
+                :disabled="page=='/login' ? true : false"
+              >
                 <v-list-item-title>Login</v-list-item-title>
               </v-list-item>
 
-              <v-list-item href="/register" :disabled="page=='/register' ? true : false">
+              <v-list-item
+                v-if="!currentUser"
+                href="/register"
+                :disabled="page=='/register' ? true : false"
+              >
                 <v-list-item-title>Register</v-list-item-title>
               </v-list-item>
-              <v-list-item href="/admin" :disabled="page=='/admin' ? true : false">
-                <v-list-item-title>Admin Panel</v-list-item-title>
+
+              <v-list-item v-if="currentUser" @click="_=>logout()">
+                <v-list-item-title>Logout</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
           </v-list>

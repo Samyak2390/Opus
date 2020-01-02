@@ -4,11 +4,10 @@
     <LoginForm />
     <div class="login-page-links">
       <a
-        href="#"
+        href="/register"
         class="login-page-link"
         style="color: #ec7063;text-decoration: none;"
-      >Forgot Password</a>
-      <a href="#" class="login-page-link" style="color: #ec7063;text-decoration: none;">Sign Up</a>
+      >Sign Up</a>
     </div>
   </div>
 </template>

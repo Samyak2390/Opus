@@ -1,6 +1,11 @@
 <template>
   <div class="main-container-home">
-    <div class="carousel">Carousel here</div>
+    <div class="carousel">
+      <div class="text">
+        <p>Discover</p>
+        <p>your favourite book.</p>
+      </div>
+    </div>
     <ISlider :data="this.highestRated" />
     <ISlider :data="this.bestsellers" />
     <ISlider :data="this.newReleases" />
@@ -27,11 +32,16 @@ export default {
       newReleases: {
         title: 'New Releases',
         data: []
-      }
+      },
+      model: 0,
+      showArrows: false,
+      hideDelimiters: true,
+      cycle: false
     }
   },
   components: {
-    ISlider, Footer
+    ISlider,
+    Footer
   },
   methods: {
     getHighestRated() {
@@ -79,8 +89,42 @@ export default {
 <style scoped>
 .carousel {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
   height: 400px;
+  background-image: url("../assets/unauthenticated/images/girl.jpg");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 992px) {
+  .text {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .text {
+    background: rgba(0, 0, 0, 0.4);
+    margin-right: 100px;
+    padding: 4px;
+  }
+}
+
+.carousel p {
+  font-weight: bold;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.carousel p:first-child {
+  font-size: 4.3rem;
+}
+.carousel p:last-child {
+  font-size: 2.3rem;
 }
 
 .main-container-home {
