@@ -42,6 +42,7 @@ export default {
   },
   created() {
     this.getDashboardData()
+    this.$store.dispatch('changePage', '/admin/dashboard')
   }
 
 }

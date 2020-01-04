@@ -63,12 +63,13 @@
         :disabled="!valid"
         @click="_=>submit()"
         :style="'background-color: #ec7063;color: white;'"
-      >Add Item</v-btn>
+      >{{page==='/admin/items'?'Update Item':'Add Item'}}</v-btn>
     </div>
   </div>
 </template>
 <script>
 import apiService from '@/apiConfig/itemService'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -82,6 +83,9 @@ export default {
   },
   created() {
     this.getImages()
+  },
+  computed: {
+    ...mapGetters({ page: 'currentPage' })
   },
   methods: {
     getImages() {

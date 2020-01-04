@@ -1,11 +1,12 @@
 <template>
   <div class="register">
     <Banner :for="className" />
-    <RegisterForm />
+    <RegisterForm @submit="submit($event)" :data="{}" />
   </div>
 </template>
 
 <script>
+import apiService from '@/apiConfig/authService'
 import Banner from '../components/unauthenticated/banner.vue'
 import RegisterForm from '../components/unauthenticated/registerForm.vue'
 import { mapGetters } from 'vuex'
@@ -26,6 +27,30 @@ export default {
         this.$router.push('/')
         this.$store.dispatch('changePage', '/')
       }
+    },
+
+    submit(data) {
+      console.log('register>>>>', data)
+      // this.$store.dispatch('loader', { show: true, message: 'Registering' })
+      const { username, password, email, age } = data
+      apiService.userRegister({ username, password, email, age })
+        .then(response => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          this.$router.push({ path: '/login' })
+          this.$store.dispatch('changePage', '/login')
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'You are Successfully Registered.' })
+        }).catch(error => {
+          this.$store.dispatch('loader', { show: false, message: '' })
+          if (error.response !== 'undefined') {
+            let errorMessage = ''
+            // check if errors always come as array
+            const errors = error.response.data.message
+            errors.forEach(error => {
+              errorMessage += error + '\n'
+            })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while registering.' })
+          }
+        })
     }
   },
   updated() {
