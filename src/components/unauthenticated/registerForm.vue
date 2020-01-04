@@ -49,8 +49,7 @@
 
       <v-checkbox
         v-if="page==='/register'"
-        v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
+        v-model="data.checkbox"
         label="Agree Terms and Conditions?"
         required
       ></v-checkbox>
@@ -73,8 +72,7 @@ export default {
   data() {
     return {
       valid: true,
-      showPassword: false,
-      checkbox: false
+      showPassword: false
     }
   },
 

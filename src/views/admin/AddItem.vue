@@ -13,16 +13,13 @@ export default {
   },
   methods: {
     submit(data) {
-      this.$store.dispatch('loader', { show: true, message: 'Adding Item' })
       apiService.addItem(data)
         .then(response => {
-          this.$store.dispatch('loader', { show: false, message: '' })
           this.$router.push({ path: '/admin/items' })
           this.$store.dispatch('changePage', '/admin/items')
           this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
         })
         .catch(error => {
-          this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
             let errorMessage = ''
             const errors = error.response.data.message

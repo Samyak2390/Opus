@@ -109,15 +109,15 @@ export default {
     },
 
     submit(data) {
-      this.$store.dispatch('loader', { show: true, message: 'Updating Item' })
       apiService.updateItem(data)
         .then(response => {
-          this.$store.dispatch('loader', { show: false, message: '' })
           this.getAllItems()
-          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item added Successfully.' })
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item Updated Successfully.' })
+          this.dialog = false
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong while deleting Item.' })
           }
         })
     }

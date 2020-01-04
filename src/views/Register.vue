@@ -30,10 +30,9 @@ export default {
     },
 
     submit(data) {
-      console.log('register>>>>', data)
-      // this.$store.dispatch('loader', { show: true, message: 'Registering' })
-      const { username, password, email, age } = data
-      apiService.userRegister({ username, password, email, age })
+      this.$store.dispatch('loader', { show: true, message: 'Registering' })
+      const { username, password, email, age, checkbox } = data
+      apiService.userRegister({ username, password, email, age, checkbox })
         .then(response => {
           this.$store.dispatch('loader', { show: false, message: '' })
           this.$router.push({ path: '/login' })
@@ -45,9 +44,14 @@ export default {
             let errorMessage = ''
             // check if errors always come as array
             const errors = error.response.data.message
-            errors.forEach(error => {
-              errorMessage += error + '\n'
-            })
+            if (Array.isArray(errors)) {
+              errors.forEach(error => {
+                errorMessage += error + '\n'
+              })
+            } else {
+              errorMessage = errors
+            }
+
             this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while registering.' })
           }
         })

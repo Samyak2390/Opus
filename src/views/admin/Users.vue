@@ -133,8 +133,7 @@ export default {
 
     confirmDelete(curr) {
       this.dialog3 = false
-      console.log('deleteing>>>>', curr)
-      // this.$store.dispatch('loader', { show: true, message: 'Deleting User' })
+      this.$store.dispatch('loader', { show: true, message: 'Deleting User' })
       apiService.deleteUser({ id: curr.id })
         .then(response => {
           this.$store.dispatch('loader', { show: false, message: '' })
@@ -142,7 +141,7 @@ export default {
             return item.id !== curr.id
           })
           this.items = filtered
-          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'Item deleted Successfully.' })
+          this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'User deleted Successfully.' })
         })
         .catch(error => {
           this.$store.dispatch('loader', { show: false, message: '' })
@@ -163,7 +162,9 @@ export default {
           this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: 'User updated Successfully.' })
         })
         .catch(error => {
+          this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting user.' })
           }
         })
     }
