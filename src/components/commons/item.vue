@@ -1,14 +1,6 @@
 <template>
   <div>
     <div class="card">
-      <!-- <v-icon
-        v-if="this.currentUser"
-        @click="_=>toggleFav(item)"
-        large
-        color="red"
-        style="position: absolute; right:0;margin: 5px 5px 0 0"
-      >{{isFav?'mdi-heart-broken':'mdi-heart-circle'}}</v-icon>-->
-
       <v-btn
         v-if="!isFav && this.currentUser"
         icon

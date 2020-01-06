@@ -75,7 +75,8 @@ export default {
     return {
       url: '',
       valid: true,
-      images: []
+      images: [],
+      None: ''
     }
   },
   props: {
@@ -91,7 +92,7 @@ export default {
     getImages() {
       apiService.fetchImages()
         .then(response => {
-          this.images = response.data
+          this.images = [this.None, ...response.data]
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {

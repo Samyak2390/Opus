@@ -1,11 +1,10 @@
 import axios from 'axios'
-// const prodEnv = 'http://c7202779.epizy.com/wat2019/api-opus/api/'
-const prodEnv = 'http://localhost:80/WAT/wat2019/api-opus/api/'
+const devEnv = 'http://localhost:80/WAT/wat2019/api-opus/api/'
 export default {
   addToFav(payload) {
     return axios({
       method: 'post',
-      url: prodEnv + 'users/addfavourite.php',
+      url: devEnv + 'users/addfavourite.php',
       data: payload,
       withCredentials: true,
       headers: {
@@ -20,7 +19,7 @@ export default {
   fetchFav() {
     return axios({
       method: 'get',
-      url: prodEnv + 'users/getfavourites.php',
+      url: devEnv + 'users/getfavourites.php',
       withCredentials: true,
       headers: {
         'Accept': 'application/json',
@@ -34,7 +33,7 @@ export default {
   deleteFav(payload) {
     return axios({
       method: 'delete',
-      url: prodEnv + 'users/deleteFavourite.php',
+      url: devEnv + 'users/deleteFavourite.php',
       data: payload,
       withCredentials: true,
       headers: {
@@ -49,7 +48,7 @@ export default {
   deleteAll() {
     return axios({
       method: 'delete',
-      url: prodEnv + 'users/deleteAllFavourite.php',
+      url: devEnv + 'users/deleteAllFavourite.php',
       withCredentials: true,
       headers: {
         'Accept': 'application/json',
