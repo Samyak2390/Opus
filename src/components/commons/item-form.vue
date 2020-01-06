@@ -35,14 +35,6 @@
         label="Category"
         :rules="[v => !!v || 'Category is required']"
       ></v-text-field>
-      <!-- <v-select
-        v-model="data.category"
-        :item-text="data.category"
-        :item-value="data.category"
-        :items="['fiction', 'Historical', 'Psychology', 'nonfiction']"
-        label="Category"
-        :rules="[v => !!v || 'Category is required']"
-      ></v-select>-->
       <v-select
         v-model="data.image"
         :item-text="data.image"
