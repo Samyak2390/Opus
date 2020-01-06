@@ -95,7 +95,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response) {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     },
@@ -117,7 +117,7 @@ export default {
         .catch(error => {
           this.dialog2 = false
           if (error && error.response) {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting Item.' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong while deleting Item.' })
           }
         })
     },
@@ -146,7 +146,7 @@ export default {
         .catch(error => {
           this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting Item.' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong while deleting User.' })
           }
         })
     },
@@ -164,7 +164,18 @@ export default {
         .catch(error => {
           this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting user.' })
+            let errorMessage = ''
+            // check if errors always come as array
+            const errors = error.response.data.message
+            if (Array.isArray(errors)) {
+              errors.forEach(error => {
+                errorMessage += error + '\n'
+              })
+            } else {
+              errorMessage = errors
+            }
+
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: errorMessage || 'Something went wrong while updating.' })
           }
         })
     }

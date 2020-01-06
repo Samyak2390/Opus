@@ -1,10 +1,11 @@
-// import { apiClient } from './eventService'
 import axios from 'axios'
+// const prodEnv = 'http://c7202779.epizy.com/wat2019/api-opus/api/'
+const prodEnv = 'http://localhost:80/WAT/wat2019/api-opus/api/'
 export default {
   addToFav(payload) {
     return axios({
       method: 'post',
-      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/addfavourite.php',
+      url: prodEnv + 'users/addfavourite.php',
       data: payload,
       withCredentials: true,
       headers: {
@@ -19,7 +20,7 @@ export default {
   fetchFav() {
     return axios({
       method: 'get',
-      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/getfavourites.php',
+      url: prodEnv + 'users/getfavourites.php',
       withCredentials: true,
       headers: {
         'Accept': 'application/json',
@@ -33,7 +34,7 @@ export default {
   deleteFav(payload) {
     return axios({
       method: 'delete',
-      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/deleteFavourite.php',
+      url: prodEnv + 'users/deleteFavourite.php',
       data: payload,
       withCredentials: true,
       headers: {
@@ -48,7 +49,7 @@ export default {
   deleteAll() {
     return axios({
       method: 'delete',
-      url: 'http://localhost:80/WAT/wat2019/api-opus/api/users/deleteAllFavourite.php',
+      url: prodEnv + 'users/deleteAllFavourite.php',
       withCredentials: true,
       headers: {
         'Accept': 'application/json',

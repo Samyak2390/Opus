@@ -23,7 +23,7 @@ const actions = {
         this.$store.dispatch('showSnackbar', { show: true, color: 'success', text: response.data || 'Successfully Logged out.' })
       })
       .catch(error => {
-        this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while logging out.' })
+        this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong while logging out.' })
       })
     commit(MutationTypes.LOGOUT)
   }

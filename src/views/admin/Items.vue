@@ -19,7 +19,7 @@
             <td>
               <v-dialog v-model="dialog" width="600px">
                 <template v-slot:activator="{ on }">
-                  <v-btn color="teal darken-1" icon @click="_=>{editItem(item)}" v-on="on">
+                  <v-btn color="teal darken-1" icon @click="e=>{editItem(e,item)}" v-on="on">
                     <v-icon>mdi-database-edit</v-icon>
                   </v-btn>
                 </template>
@@ -74,13 +74,14 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     },
 
-    editItem(item) {
+    editItem(e, item) {
       this.currentItem = item
+      e.stopPropagation()
     },
 
     deleteItem(item) {
@@ -103,7 +104,7 @@ export default {
         .catch(error => {
           this.$store.dispatch('loader', { show: false, message: '' })
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong while deleting Item.' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong while deleting Item.' })
           }
         })
     },

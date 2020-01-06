@@ -51,7 +51,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     },
@@ -62,7 +62,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     },
@@ -73,7 +73,7 @@ export default {
         })
         .catch(error => {
           if (error && error.response !== 'undefined') {
-            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data || 'Something went wrong!' })
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
           }
         })
     }
