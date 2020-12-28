@@ -1,18 +1,133 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="main-container-home">
+    <div class="carousel">
+      <div class="text">
+        <p>Discover</p>
+        <p>your favourite book.</p>
+      </div>
+    </div>
+    <ISlider :data="this.highestRated" />
+    <ISlider :data="this.bestsellers" />
+    <ISlider :data="this.newReleases" />
+    <Footer />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import apiService from '@/apiConfig/itemService'
+import ISlider from '../components/commons/items-slider.vue'
+import Footer from '../components/commons/footer'
 
 export default {
-  name: 'home',
+  data() {
+    return {
+      highestRated: {
+        title: 'Top Rated',
+        data: []
+      },
+      bestsellers: {
+        title: 'Best Sellers',
+        data: []
+      },
+      newReleases: {
+        title: 'New Releases',
+        data: []
+      },
+      model: 0,
+      showArrows: false,
+      hideDelimiters: true,
+      cycle: false
+    }
+  },
   components: {
-    HelloWorld
+    ISlider,
+    Footer
+  },
+  methods: {
+    getHighestRated() {
+      apiService.fetchHighestRated()
+        .then(response => {
+          this.highestRated.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    },
+    getBestSellers() {
+      apiService.fetchBestSellers()
+        .then(response => {
+          this.bestsellers.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    },
+    getNewReleases() {
+      apiService.fetchNewReleases()
+        .then(response => {
+          this.newReleases.data = response.data
+        })
+        .catch(error => {
+          if (error && error.response !== 'undefined') {
+            this.$store.dispatch('showSnackbar', { show: true, color: 'error', text: error.response.data.message || 'Something went wrong!' })
+          }
+        })
+    }
+
+  },
+  created() {
+    this.getHighestRated()
+    this.getBestSellers()
+    this.getNewReleases()
   }
 }
 </script>
+<style scoped>
+.carousel {
+  width: 100%;
+  height: 400px;
+  background-image: url("../assets/unauthenticated/images/girl.jpg");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 992px) {
+  .text {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .text {
+    background: rgba(0, 0, 0, 0.4);
+    margin-right: 100px;
+    padding: 4px;
+  }
+}
+
+.carousel p {
+  font-weight: bold;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.carousel p:first-child {
+  font-size: 4.3rem;
+}
+.carousel p:last-child {
+  font-size: 2.3rem;
+}
+
+.main-container-home {
+  padding-bottom: 10rem;
+}
+</style>
